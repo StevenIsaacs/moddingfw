@@ -52,166 +52,107 @@ define _help
 Makefile: ${Seg}
 Usage: make [<option>=<value> ...] [<goal>]
 
-This is the top level make file for ModFW. NOTE: ModFW is not a build system.
-Instead, ModFW is an integration tool. ModFW is intended to integrate a variety
-of build systems which are used to build both software and hardware components
-and projects.
+This is the top level make file for ModFW.
 
-This make file and the included make segments define a framework for developing
-new projects or modifying existing projects. A project can consist of both
-software and hardware. All of the tools and existing components needed to build
-the project are automatically downloaded, configured, built, and installed when
-needed.
+NOTE: ModFW is not a build system. Instead, ModFW is an integration tool. ModFW is intended to integrate a variety of build systems which are used to build both software and hardware components and projects.
+
+This make file and the included make segments define a framework for developing new projects or modifying existing projects. A project can consist of both software and hardware. All of the tools and existing components needed to build the project are automatically downloaded, configured, built, and installed when needed.
 
 Definitions:
-  deliverable: A deliverable is the end result of a ModFW run. In make
-  terminology a deliverable is an end goal or target. In ModFW a deliverable is
-  a file which can be:
-  * A software executable or library.
-  * A file describing an object which can be manufactured using a 3D printer,
-    CNC or other means.
-  * A file describing a printed circuit board needed to manufacture and assemble
-    the board.
-  * A bill of materials (BOM) for off the shelf parts.
+  deliverable:
+    A deliverable is the end result of a ModFW run. In make terminology a deliverable is an end goal or target. In ModFW a deliverable is a file which can be:
+      - A software executable or library.
+      - A file describing an object which can be manufactured using a 3D printer, CNC or other means.
+      - A file describing a printed circuit board needed to manufacture and assemble the board.
+      - A bill of materials (BOM) for off the shelf parts.
 
-  project: A ModFW project is the collection of one or more deliverables which
-  serve a specific purpose. By default all components, intermediate files and
-  deliverables are contained in the project directory tree. This allows
-  different projects to use different versions of kits without worry of
-  version conflicts. The disadvantage of this approach is the potential of
-  having multiple copies of mods so one must be careful when editing mods to
-  avoid mistakenly modifying a file in the wrong project.
+  project:
+    A ModFW project is the collection of one or more deliverables which serve a specific purpose. By default all components, intermediate files and deliverables are contained in the project directory tree. This allows different projects to use different versions of kits without worry of version conflicts. The disadvantage of this approach is the potential of having multiple copies of mods so one must be careful when editing mods to avoid mistakenly modifying a file in the wrong project.
 
-  seg: Indicates the name of a makefile segment (included file). Changing the
-  name of the file changes the name of the associated variables, macros, and
-  goals.
+  seg:
+    Indicates the name of a makefile segment (included file). Changing the name of the file changes the name of the associated variables, macros, and goals.
 
-  mod: The collection of files for a given deliverable is termed a mod.
-  Semantically, a mod is a modification of an existing deliverable or a mod can
-  be the development a new deliverable. A mod can be dependent upon the goals of
-  other mods. See help-mods for more information.
+  mod:
+    The collection of files for a given deliverable is termed a mod. Semantically, a mod is a modification of an existing deliverable or a mod can be the development a new deliverable. A mod can be dependent upon the goals of other mods. See help-mods for more information.
 
-  kit: A kit is a collection of mods. Each kit is a separate git repository
-  and is cloned from the remote repository when needed. New kits can be created
-  locally. All kits used in a ModFW run must have unique names. See help-kits
-  for more information.
+  kit:
+    A kit is a collection of mods. Each kit is a separate git repository and is cloned from the remote repository when needed. New kits can be created locally. All kits used in a ModFW run must have unique names. See help-kits for more information.
 
-  prj: Defines the mods comprising a project. This can be as simple as
-  a single makefile segment but can include project documentation as well as
-  goals for packaging the project deliverables. A project is maintained as a
-  separate git repository. Similar to a kit, a project is automatically cloned
-  when needed or can be created locally. The makefile segment for the project
-  should define the kit repo URLs and branches. One project can be the "active"
-  project. Sticky variables are stored in the active project directory. See
-  help-helpers for more information about sticky variables. The active project
-  is specified using the PROJECT variable. See help-projects for more
-  information.
+  prj:
+    Defines the mods comprising a project. This can be as simple as a single makefile segment but can include project documentation as well as goals for packaging the project deliverables. A project is maintained as a separate git repository. Similar to a kit, a project is automatically cloned when needed or can be created locally. The makefile segment for the project should define the kit repo URLs and branches. One project can be the "active" project. Sticky variables are stored in the active project directory. See  help-helpers for more information about sticky variables. The active project is specified using the PROJECT variable. See help-projects for more information.
 
-  comp: A ModFW component. A component can be a mod, kit, or project. All
-  ModFW components contain at minimum a makefile segment having the same name.
+  comp:
+    A ModFW component. A component can be a mod, kit, or project. All ModFW components contain at minimum a makefile segment having the same name.
 
-  node: A data structure which describes a ModFW related directory. Nodes are
-  organized into a tree structure. See help-nodes for more information.
+  node:
+    A data structure which describes a ModFW related directory. Nodes are organized into a tree structure. See help-nodes for more information.
 
-  repo: A node which is also a clone of a git repository.
+  repo:
+    A node which is also a clone of a git repository.
 
-  dev: The designer and/or developer of a project.
+  dev:
+    The designer and/or developer of a project.
 
 Project Structure
 
-Projects use mods and mods use kits. To help avoid name collisions between
-kits projects use mod references to specify which mods to use. A mod reference
-has the form <kit>.<mod>. The referenced mod installs its kit if necessary. A
-project should not need to install a kit before using a mod. See help-mods
-for more information.
+Projects use mods and mods use kits. To help avoid name collisions between kits projects use mod references to specify which mods to use. A mod reference has the form <kit>.<mod>. The referenced mod installs its kit if necessary. Aproject should not need to install a kit before using a mod. See help-modsfor more information.
 
-To help identify the purpose of project and kit repos it is recommended project
-repo names be prefixed with mfw-prj- and kit repos be prefixed with mfw-kit-.
+To help identify the purpose of project and kit repos it is recommended project repo names be prefixed with mfw-prj- and kit repos be prefixed with mfw-kit-.
 
 Repositories and branches:
-  As previously mentioned projects and kits are separate git repositories. Mods
-  can be dependent upon the output of other projects and kits. Different mods
-  can be dependent upon different versions of projects and kits. Managing this
-  potential web of dependencies can be a nightmare and lead to disk thrashing
-  when switching to different branches because of mod interdependencies.
-  Therefore, only one branch of a repository can be active. The branch can be
-  specified at the time the repository is cloned. Thereafter, branches must be
-  switched manually and all interdependent components can only use the same
-  branch of a given repository.
+  As previously mentioned projects and kits are separate git repositories. Mods can be dependent upon the output of other projects and kits. Different mods can be dependent upon different versions of projects and kits. Managing this potential web of dependencies can be a nightmare and lead to disk thrashing when switching to different branches because of mod interdependencies. Therefore, only one branch of a repository can be active. The branch can be specified at the time the repository is cloned. Thereafter, branches must be switched manually and all interdependent components can only use the same branch of a given repository.
 
 Naming conventions:
-<seg>           The name of a segment. This is used to declare segment specific
-                variables and to derive directory and file names. As a result
-                no two segments can have the same file name.
-<seg>.mk        The name of a makefile segment. A makefile segment is designed
-                to be included from another file. These should be formatted to
-                contain a preamble and postamble. See help-helpers for more
-                information.
-GLOBAL_VARIABLE Can be overridden on the command line. Sticky variables should
-                have this form unless they are for a particular context in
-                which case the should use the <ctx>.VARIABLE form (below). See
-                help-Sticky for more information about sticky variables.
-global_variable Available to all segments but should not be overridden on the
-                command line. Attempts to override can have unpredictable
-                results.
-<ctx>           A specific context. A context can be a segment, macro or
-                group of related variables.
-<ctx>.VARIABLE  A global variable prefixed with the name of specific context.
-                These can be overridden on the command line.
-                Component specific sticky variables should use this form.
-<ctx>.variable  A global variable prefixed with the name of the context
-                defining the variable. These should not be overridden.
-_private_variable Make segment specific. Should not be used by other segments
-                since these can be changed without concern for other segments.
-callable-macro  The name of a callable macro available to all segments.
-_private-macro  A private macro specific to a segment.
-GlobalVariable  Camel case is used to identify variables defined by the
-                helpers. This is mostly helpers.mk.
-Global_Variable This form is also used by the helpers to bring more attention
-                to a variable.
-Callable-Macro  The name of a helper defined callable macro.
+<seg>
+  The name of a segment. This is used to declare segment specific variables and to derive directory and file names. As a result no two segments can have the same file name.
+<seg>.mk
+  The name of a makefile segment. A makefile segment is designed to be included from another file. These should be formatted to contain a preamble and postamble. See help-helpers for more information.
+GLOBAL_VARIABLE
+  Can be overridden on the command line. Sticky variables should have this form unless they are for a particular context in which case the should use the <ctx>.VARIABLE form (below). See help-Sticky for more information about sticky variables.
+global_variable
+  Available to all segments but should not be overridden on the command line. Attempts to override can have unpredictable results.
+<ctx>
+  A specific context. A context can be a segment, macro or group of related variables.
+<ctx>.VARIABLE
+  A global variable prefixed with the name of specific context. These can be overridden on the command line. Component specific sticky variables should use this form.
+<ctx>.variable
+  A global variable prefixed with the name of the context defining the variable. These should not be overridden.
+_private_variable
+  Make segment specific. Should not be used by other segments since these can be changed without concern for other segments.
+callable-macro
+  The name of a callable macro available to all segments.
+_private-macro
+  A private macro specific to a segment.
+GlobalVariable
+  Camel case is used to identify variables defined by the helpers. This is mostly helpers.mk.
+Global_Variable
+  This form is also used by the helpers to bring more attention to a variable.
+Callable-Macro
+  The name of a helper defined callable macro.
 
-WARNING: Even though make allows variable names to begin with a numeric
-character this must be avoided for all variable names which could be
-exported to the environment to be passed to a shell. If a numeric character is
-used as the first character of an exported variable name unpredictable behavior
-can occur. This is particularly important for PROJECT, KIT, MOD, and segment
-names. To help avoid this problem use the helpers provided macro To-Shell-Var
-to convert a name to a shell compatible name which can then safely be exported
-to the shell environment.
+WARNING: Even though make allows variable names to begin with a numericcharacter this must be avoided for all variable names which could be exported to the environment to be passed to a shell. If a numeric character is used as the first character of an exported variable name unpredictable behavior can occur. This is particularly important for PROJECT, KIT, MOD, and segment names. To help avoid this problem use the helpers provided macro To-Shell-Var to convert a name to a shell compatible name which can then safely be exported to the shell environment.
 
 Overriding variables:
-An overrides file, overrides.mk, is supported where the developer can preset
-variables rather than having to define them on the command line. This file is
-intended to be temporary and is not maintained as part of the repository (i.e.
-ignored in .gitignore). The overrides.mk file is loaded immediately. None of
-the helpers are available. Therefore overrides should only define variables
-which would otherwise be defined on the command line.
+An overrides file, overrides.mk, is supported where the developer can preset variables rather than having to define them on the command line. This file is intended to be temporary and is not maintained as part of the repository (i.e. ignored in .gitignore). The overrides.mk file is loaded immediately. None of the helpers are available. Therefore overrides should only define variables which would otherwise be defined on the command line.
 
-Additional project, kit and mod specific overrides can be declared and
-maintained in a project repository. Unlike overrides.mk the helpers will be
-available to the project overrides. See help-projects for more information.
+Additional project, kit and mod specific overrides can be declared and maintained in a project repository. Unlike overrides.mk the helpers will be available to the project overrides. See help-projects for more information.
 
 Makefile processing:
-ModFW divides makefile processing into two distinct phases; pre-process and
-execute.
+ModFW divides makefile processing into two distinct phases; pre-process and execute.
 
-During the pre-process phase nearly all macros are executed and makefile
-segments are loaded. Any repos that are referenced are cloned or setup during
-this phase. Because of this, variables should be declared using the := form. New
-components (project, kit, or mod) are created during this phase.
+During the pre-process phase nearly all macros are executed and makefile segments are loaded. Any repos that are referenced are cloned or setup during this phase. Because of this, variables should be declared using the := form. New components (project, kit, or mod) are created during this phase.
 
-The execute phase is where the typical make behavior occurs. Dependencies are
-examined and resolved in this phase.
+The execute phase is where the typical make behavior occurs. Dependencies are examined and resolved in this phase.
 
 Architectural components:
-Workstation     A development workstation or a system administration
-                workstation.
-Proxy           Manages connections between workstations and gateways. This is
-                typically hosted in the cloud.
-Gateway         Serves as a protocol translator between the Controller and the
-                workstation.
-Controller      Controls the device hardware.
+Workstation
+  A development workstation or a system administration workstation.
+Proxy
+  Manages connections between workstations and gateways. This is typically hosted in the cloud.
+Gateway
+  Serves as a protocol translator between the Controller and the workstation.
+Controller
+  Controls the device hardware.
 
 Hardware platforms:
 PC  = A personal computer.
@@ -226,15 +167,13 @@ PRX = The proxy hosted in the cloud.
 GW  = Gateway (protocol translation) between the CTL and the system.
 CTL = The device controller.
 
-ModFW directly supports the following design patterns. If necessary mods
-can either change the patterns or define new ones.
+ModFW directly supports the following design patterns. If necessary mods can either change the patterns or define new ones.
 
 Design patterns:
 
   Direct:
   MCU_ACCESS_METHOD = direct
-  Direct interface to the MCU from a PC workstation. In this case there is
-  no gateway and no OS image is staged.
+  Direct interface to the MCU from a PC workstation. In this case there is no gateway and no OS image is staged.
   +-PC----------+   +-MCU--------+   +-HDW------+
   | Workstation |<->| Controller |<->| Hardware |
   +-WS----------+ ^ +-CTL--------+ ^ +----------+
@@ -245,8 +184,7 @@ Design patterns:
 
   Console:
   MCU_ACCESS_METHOD = standalone
-  Similar to direct but the SBC is the user interface and a corresponding
-  OS image for the SBC is staged. In this case there is no network interface.
+  Similar to direct but the SBC is the user interface and a corresponding OS image for the SBC is staged. In this case there is no network interface.
   Software updates in this case must be performed manually at the Gateway.
   +-SBC-----+   +-MCU--------+   +-HDW------+
   | Gateway |<->| Controller |<->| Hardware |
@@ -258,8 +196,7 @@ Design patterns:
 
   Local network:
   MCU_ACCESS_METHOD = headless
-  SSH sessions are used to communicate with the Gateway and a corresponding
-  OS image for the SBC is staged. The Gateway has no keyboard or display.
+  SSH sessions are used to communicate with the Gateway and a corresponding OS image for the SBC is staged. The Gateway has no keyboard or display.
   +-PC----------+   +-SBC-----+   +-MCU--------+   +-HDW------+
   | Workstation |<->| Gateway |<->| Controller |<->| Hardware |
   +-WS----------+ ^ +-GW-----=+ ^ +-CTL--------+ ^ +----------+
@@ -269,10 +206,7 @@ Design patterns:
                                 serial port)
 
   MCU_ACCESS_METHOD = proxied
-  Secure proxied remote access using SSH tunnels. A valid ModDev package is
-  required and a corresponding OS image is staged. The ModDev package is also
-  used to generate scripts for accessing the gateway from the workstation and
-  for accessing the proxy from either the gateway or the workstation.
+  Secure proxied remote access using SSH tunnels. A valid ModDev package is required and a corresponding OS image is staged. The ModDev package is also used to generate scripts for accessing the gateway from the workstation and for accessing the proxy from either the gateway or the workstation.
   +-PC----------+   +-(cloud)+   +-SBC-----+   +-MCU--------+   +-HDW------+
   | Workstation |<->| Proxy  |<->| Gateway |<->| Controller |<->| Hardware |
   +-WS----------+ ^ +-PRX----+ ^ +-GW------+ ^ +-CTL--------+ ^ +----------+
@@ -282,14 +216,9 @@ Design patterns:
                                              serial port)
 
 Getting started:
-All that is needed to get started is a clone of this repository and then
-run make within the cloned directory. All of the necessary tools are
-automatically installed within the context of the project directory so
-that different projects can use different versions of tools without
-conflicts between versions.
+All that is needed to get started is a clone of this repository and then run make within the cloned directory. All of the necessary tools are automatically installed within the context of the project directory so that different projects can use different versions of tools without conflicts between versions.
 
-Before any actual mods can be built it is necessary to declare which project
-is active,
+Before any actual mods can be built it is necessary to declare which project is active,
 
 For example:
   make PROJECT=<project> <project>.URL=<url> all
@@ -297,39 +226,41 @@ For example:
 
 Command line options:
   Required sticky options:
-  To see the variables needed by projects, kits, and mods use the corresponding
-  help. e.g. make help-projects will display the help related to projects.
+  To see the variables needed by projects, kits, and mods use the corresponding help. e.g. make help-projects will display the help related to projects.
 
-  For automated builds it is possible to preset options in another directory
-  then overriding STICKY_PATH either in overrides.mk or on the command line.
+  For automated builds it is possible to preset options in another directory then overriding STICKY_PATH either in overrides.mk or on the command line.
 
 
 Command line goals:
-  all             All mods for the active project are built. Use show-mod_deps
-                  for a list of goals.
-  clean           Remove all of the build artifacts. This removes the build
-                  and staging directories.
+  all
+    All mods for the active project are built. Use show-mod_deps for a list of goals.
+  clean
+    Remove all of the build artifacts. This removes the build and staging directories.
 
   Defined by a kit and mod:
-  firmware        Build the mod firmware only.
-  parts           3D printable parts only.
-  os              Build the SBC OS only.
-  clean           Remove the dependency files and the output files.
-  reset-sticky    Resets ALL sticky variables so they have to be defined on
-                  the command line again. This does not reset mod specific
-                  sticky variables. For mods use the mod defined reset.
-  clean-<seg>     Cleans a make segment output. See segment specific help
-                  for more information.
+  firmware
+    Build the mod firmware only.
+  parts
+    3D printable parts only.
+  os
+    Build the SBC OS only.
+  clean
+    Remove the dependency files and the output files.
+  reset-sticky
+    Resets ALL sticky variables so they have to be defined on the command line again. This does not reset mod specific sticky variables. For mods use the mod defined reset.
+  clean-<seg>
+    Cleans a make segment output. See segment specific help for more information.
   reset-<seg>-sticky
-                  Reset segment specific variables. See segment specific
-                  help for more information.
+    Reset segment specific variables. See segment specific help for more information.
 
   Help and debug:
   show-project_deps
-                  Display the list of goals a project is dependent upon.
-  show-<variable> This is a special goal which can be used to display
-                  any makefile variable and exit.
-  help-<seg>      Display a make segment specific help.
+    Display the list of goals a project is dependent upon.
+  show-<variable>
+    This is a special goal which can be used to display any makefile variable and exit.
+  help-<seg>
+    Display a make segment specific help.
+
   See help-helpers for more information.
 
 endef
