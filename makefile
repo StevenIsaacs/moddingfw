@@ -105,28 +105,40 @@ Repositories and branches:
 Naming conventions:
 <seg>
   The name of a segment. This is used to declare segment specific variables and to derive directory and file names. As a result no two segments can have the same file name.
+
 <seg>.mk
   The name of a makefile segment. A makefile segment is designed to be included from another file. These should be formatted to contain a preamble and postamble. See help-helpers for more information.
+
 GLOBAL_VARIABLE
   Can be overridden on the command line. Sticky variables should have this form unless they are for a particular context in which case the should use the <ctx>.VARIABLE form (below). See help-Sticky for more information about sticky variables.
+
 global_variable
   Available to all segments but should not be overridden on the command line. Attempts to override can have unpredictable results.
+
 <ctx>
   A specific context. A context can be a segment, macro or group of related variables.
+
 <ctx>.VARIABLE
   A global variable prefixed with the name of specific context. These can be overridden on the command line. Component specific sticky variables should use this form.
+
 <ctx>.variable
   A global variable prefixed with the name of the context defining the variable. These should not be overridden.
+
 _private_variable
   Make segment specific. Should not be used by other segments since these can be changed without concern for other segments.
+
 callable-macro
   The name of a callable macro available to all segments.
+
 _private-macro
   A private macro specific to a segment.
+
 GlobalVariable
   Camel case is used to identify variables defined by the helpers. This is mostly helpers.mk.
+
 Global_Variable
   This form is also used by the helpers to bring more attention to a variable.
+
 Callable-Macro
   The name of a helper defined callable macro.
 
@@ -282,8 +294,7 @@ _var := ModFW_node
 ${_var} := ${WorkingDir}
 define _help
 ${_var} := ${${_var}}
-  This is the name of the ModFW directory and is equal to the helper variable
-  WorkingDir. This is used to name the root node for the ModFW node tree.
+  This is the name of the ModFW directory and is equal to the helper variable WorkingDir. This is used to name the root node for the ModFW node tree.
 endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})
@@ -293,11 +304,7 @@ $(call Add-Help-Section,prepended,Prepended make segment.)
 _var := PREPEND
 define _help
 ${_var} = ${${_var}}
-  When defined on the command line this triggers the inclusion of a makefile
-  segment named by ${_var}. This segment is loaded after loading the helpers,
-  overrides, and config but before loading the project makefile segments. The
-  Use-Segment macro is used to find and load the segment so segment search
-  paths will be used (see help-helpers for more information).
+  When defined on the command line this triggers the inclusion of a makefile segment named by ${_var}. This segment is loaded after loading the helpers, overrides, and config but before loading the project makefile segments. The Use-Segment macro is used to find and load the segment so segment search paths will be used (see help-helpers for more information).
   For example: "make ${_var}=test" will load the makefile segment named
   test.mk immediately before loading projects.mk.
 endef
@@ -311,8 +318,7 @@ endif
 _var := TESTING
 define _help
 ${_var} = ${${_var}}
-  When this variable is not empty then the normal project processing does not
-  occur. Instead, PREPEND should be used to initiate a testing process.
+  When this variable is not empty then the normal project processing does not occur. Instead, PREPEND should be used to initiate a testing process.
   NOTE: The sticky variable PROJECT is not required when ${_var} is defined.
 endef
 help-${_var} := $(call _help)
@@ -325,8 +331,7 @@ ifeq (${TESTING},)
   $(call Sticky,${_var})
   define _help
   ${_var} = ${${_var}} REQUIRED STICKY VARIABLE
-      The name of the active project. Only one project can be the active project
-      and no two projects can have the same name.
+      The name of the active project. Only one project can be the active project and no two projects can have the same name.
   endef
   help-${_var} := $(call _help)
   $(call Add-Help,${_var})
@@ -352,11 +357,9 @@ ifeq (${TESTING},)
 _macro := init-modfw
 define _help
 ${_macro}
-  Initialize the ModFW makefiles. Among other things this declares the
-  project root node and its top level children.
+  Initialize the ModFW makefiles. Among other things this declares the project root node and its top level children.
 
-  NOTE: This is a macro because of an idiosyncrasy in the make parser
-  causing problems when creating nodes.
+  NOTE: This is a macro because of an idiosyncrasy in the make parser causing problems when creating nodes.
 endef
 help-${_macro} := $(call _help)
 $(call Add-Help,${_macro})
@@ -393,13 +396,10 @@ $(call Add-Help-Section,appended,Appended make segment.)
 _var := APPEND
 define _help
 ${_var} = ${${_var}}
-  When defined on the command line this triggers the inclusion of a makefile
-  segment named by ${_var}. This segment is loaded last after all other
-  segments have been loaded. The Use-Segment macro is used to find and load
-  the segment so segment search paths will be used (see help-helpers for more
-  information).
-  For example: "make ${_var}=test" will load the makefile segment named
-  test.mk.
+  When defined on the command line this triggers the inclusion of a makefile segment named by ${_var}.
+
+  This segment is loaded last after all other segments have been loaded. The Use-Segment macro is used to find and load the segment so segment search paths will be used (see help-helpers for more information).
+  For example: "make ${_var}=test" will load the makefile segment named test.mk.
 endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})

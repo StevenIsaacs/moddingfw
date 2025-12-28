@@ -13,23 +13,19 @@ define _help
 Make segment: ${Seg}.mk
 
 A mod defines all of the tools and build procedures for a specific component.
-Mods are always contained within a kit and are not available until the
-containing kit has either been installed or created.
 
-A mod is referenced using the kit name and the mod in a dot notation making
-it possible for more than one kit to contain mods having the same name. A mod
-reference is shown in the following sections as <kit>.<mod>. This is consistent
-with a path since a mod directory is a subdirectory of a kit.
+Mods are always contained within a kit and are not available until the containing kit has either been installed or created.
+
+A mod is referenced using the kit name and the mod in a dot notation making it possible for more than one kit to contain mods having the same name. A mod
+reference is shown in the following sections as <kit>.<mod>. This is consistent with a path since a mod directory is a subdirectory of a kit.
 e.g. samplekit.samplemod references the kit samplekit and the mod samplemod.
 
 NOTE: The <kit>.<mod> reference should be equal to $${<kit>.<mod>.SegUN} after loading the mod segment file which can be used as a sanity check.
 
-WARNING: Because of a mod reference being a dot notation, kit and mod names
-cannot contain dots. e.g. sample.kit.sample.mod will cause unpredictable
+WARNING: Because of a mod reference being a dot notation, kit and mod names cannot contain dots. e.g. sample.kit.sample.mod will cause unpredictable
 results.
 
-If a mod is referenced but the kit containing the mod has not been installed
-then the kit is installed.
+If a mod is referenced but the kit containing the mod has not been installedthen the kit is installed.
 
 All mods are child nodes of the containing kit node.
 
@@ -52,8 +48,9 @@ _var := this_mod
 ${_var} :=
 define _help
 ${_var}
-  The name of the current mod being used. The mod segment can use this
-  variable to access mod attributes.
+  The name of the current mod being used.
+
+  The mod segment can use this variable to access mod attributes.
 endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})
@@ -69,16 +66,16 @@ _var := mod_prefixes
 ${_var} :=
 define _help
 ${_var}
-  The list of registered mod prefixes. This is used to avoid situations where
-  multiple mods use the same prefix. Each prefix must be unique.
+  The list of registered mod prefixes.
+
+  This is used to avoid situations where multiple mods use the same prefix. Each prefix must be unique.
 endef
 
 _var := mod_ignored_nodes
 ${_var} := BUILD_DIR STAGING_DIR
 define _help
 ${_var}
-  These nodes are not part of the git repository and therefore are ignored using
-  .gitignore.
+  These nodes are not part of the git repository and therefore are ignored using .gitignore.
 endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})
@@ -87,8 +84,9 @@ _var := mod_node_names
 ${_var} := INC_DIR ${mod_ignored_nodes}
 define _help
 ${_var}
-  A mod is always contained within a kit which contains a number of mods. A kit
-  also defines context for the mods within a kit. See help-modfw_structure for
+  A mod is always contained within a kit which contains a number of mods.
+
+  A kit also defines context for the mods within a kit. See help-modfw_structure for
   more information.
 
 endef
@@ -105,15 +103,12 @@ ${_var}
   <kit>.<mod>.goals
     The list of goals for the mod.
   <kit>.<mod>.kit
-    The kit name portion of the mod reference. This is also equal to the name
-    of the mod parent node.
+    The kit name portion of the mod reference. This is also equal to the name of the mod parent node.
   <kit>.<mod>.mod
     The mod name portion of the mod reference.
   <kit>.<mod>.prefixes
-    The list of registered prefixes for the mod. This is used to help make mod
-    specific symbols unique without using lengthy <kit>.<mod> references. A mod
-    prefix must be registered using register-mod-prefix in order to ensure
-    prefixes do not conflict with other mods.
+    The list of registered prefixes for the mod. This is used to help make mod specific symbols unique without using lengthy <kit>.<mod> references. A mod
+    prefix must be registered using register-mod-prefix in order to ensure prefixes do not conflict with other mods.
 endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})
@@ -124,6 +119,7 @@ _macro := is-valid-mod-reference
 define _help
 ${_macro}
   Returns a non-empty value if a mod reference is valid.
+
   Parameters:
     1 = <kit>.<mod> reference.
 endef
@@ -150,6 +146,7 @@ _macro := kit-name
 define _help
 ${_macro}
   Returns the kit portion of a mod reference.
+
   Parameters:
     1 = <kit>.<mod> reference.
 endef
@@ -161,6 +158,7 @@ _macro := mod-name
 define _help
 ${_macro}
   Returns the mod portion of a mod reference.
+
   Parameters:
     1 = <kit>.<mod> reference.
 endef
@@ -172,6 +170,7 @@ _macro := kit-path
 define _help
 ${_macro}
   Returns the path of the node containing the kit which contains the mod.
+
   Parameters:
     1 = <kit>.<mod> reference.
 endef
@@ -183,6 +182,7 @@ _macro := mod-path
 define _help
 ${_macro}
   Returns the path of the node containing the mod.
+
   Parameters:
     1 = <kit>.<mod> reference.
 endef
@@ -196,6 +196,9 @@ _macro := mod-is-declared
 define _help
 ${_macro}
   Returns a non-empty value if the mod has been declared.
+
+  Parameters:
+    1 = <kit>.<mod> reference.
 endef
 help-${_macro} := $(call _help)
 $(call Add-Help,${_macro})
@@ -205,6 +208,9 @@ _macro := prefix-is-registered
 define _help
 ${_macro}
   Returns a non-empty value if the mod prefix is already registered.
+
+  Parameters:
+    1 = <kit>.<mod> reference.
 endef
 help-${_macro} := $(call _help)
 $(call Add-Help,${_macro})
@@ -214,6 +220,7 @@ _macro := mod-exists
 define _help
 ${_macro}
   This returns a non-empty value if a node contains a makefile segment.
+
   Parameters:
     1 = The name of a previously declared mod. This should be a <kit>.<mod>
         reference.
@@ -225,11 +232,11 @@ ${_macro} = $(call node-exists,$(1))
 _macro := is-modfw-mod
 define _help
 ${_macro}
-  Returns a non-empty value if the mod conforms to the ModFW pattern. A
-  ModFW mod will always have a makefile segment having the same name as the
-  mod and the repo.
-  The mod is contained in a node of the same name. The makefile segment file
+  Returns a non-empty value if the mod conforms to the ModFW pattern.
+
+  A ModFW mod will always have a makefile segment having the same name as the mod and the repo. The mod is contained in a node of the same name. The makefile segment file
   will contain the same name to indicate it is customized for the mod.
+
   Parameters:
     1 = A <kit>.<mod> reference to a previously declared mod.
 endef
@@ -259,8 +266,10 @@ $(call Add-Help-Section,mod-decl,Macros for declaring mods.)
 _macro := declare-mod
 define _help
 ${_macro}
-  Define the attributes of a mod. A mod must be declared before any other mod
-  related macros can be used. The containing kit is also declared.
+  Define the attributes of a mod.
+
+  A mod must be declared before any other mod related macros can be used. The containing kit is also declared.
+
   Parameters:
     1 = The <kit>.<mod> reference to the mod.
 endef
@@ -314,8 +323,8 @@ endef
 _macro := undeclare-mod
 define _help
 ${_macro}
-  Remove a mod declaration. If undeclaring the mod results in the containing
-  kit no longer having any declared mods then the kit is also undeclared.
+  Remove a mod declaration. If undeclaring the mod results in the containing kit no longer having any declared mods then the kit is also undeclared.
+
   Parameters:
     1 = The <kit>.<mod> reference to the mod.
 endef
@@ -361,17 +370,18 @@ $(call Add-Help-Section,mod-install,Macros for installing or creating mods.)
 _macro := register-mod-prefix
 define _help
 ${_macro}
-  Register a prefix to be used by a mod for symbol names to avoid symbol
-  name conflicts with other mods and to avoid lengthy <kit>.<mod> references.
-  A prefix must be unique. A detected prefix conflict triggers an error exit.
+  Register a prefix to be used by a mod for symbol names to avoid symbol name conflicts with other mods and to avoid lengthy <kit>.<mod> references.
+  A prefix must be unique.
+
+  A detected prefix conflict triggers an error exit.
 
   A mod can register multiple prefixes.
 
   Registration also defines a variable using the prefix as the variable name.
+
   This variable contains the <kit>.<mod> reference.
 
-  The prefix for a mod can be retrieved using the <kit>.<mod>.prefixes
-  attribute.
+  The prefix for a mod can be retrieved using the <kit>.<mod>.prefixes attribute.
 
   WARNING: Mods must register themselves.
 
@@ -406,6 +416,7 @@ _macro := display-mod
 define _help
 ${_macro}
   Display the attributes of a declared mod.
+
   Parameters:
     1 = The name of the mod.
 endef
@@ -552,6 +563,7 @@ endef
 define _help
 ${_macro}
   This generates segment text which can then be written to a file.
+
   Parameters:
     1 = The name of the node to associate with the segment.
     2 = A one line description.
@@ -566,8 +578,8 @@ $(call Add-Help,${_macro})
 _macro := gen-mod-segment
 define _help
 ${_macro}
-  This uses Gen-Segment-Text to generate a segment file and writes it to the
-  specified file.
+  This uses Gen-Segment-Text to generate a segment file and writes it to the specified file.
+
   Parameters:
     1 = The <kit>.<mod> reference for the mod. This is used to name the segment
         file, associated variable and, specific goals.
@@ -587,14 +599,16 @@ endef
 _macro := mk-mod
 define _help
 ${_macro}
-  Declare and initialize a new mod within a kit. A makefile segment is
-  generated from a template. The dev must then complete the makefile segment
+  Declare and initialize a new mod within a kit.
+
+  A makefile segment is generated from a template. The dev must then complete the makefile segment
   before attempting a build. The kit is installed if necessary.
 
   NOTE: This is designed to be callable from the make command line using the
   helpers call-<macro> goal.
   For example:
     make ${_macro}.PARMS=<kit>.<mod> call-${_macro}
+
   Parameters:
     1 = The <kit>.<mod> name of the new mod.
 endef
@@ -635,18 +649,18 @@ endef
 _macro := mk-mod-from-template
 define _help
 ${_macro}
-  Copy an existing mod to serve as the template for a new mod. The makefile
-  segment for the template mod is used to generate the new makefile segment with
-  references to the template mod changed to reference the new mod. The
-  template makefile segment is retained for reference but no longer used.
+  Copy an existing mod to serve as the template for a new mod.
 
-  NOTE: The kits containing the the new mod or the template mod are installed
-  if necessary.
+  The makefile segment for the template mod is used to generate the new makefile segment with
+  references to the template mod changed to reference the new mod. The template makefile segment is retained for reference but no longer used.
+
+  NOTE: The kits containing the the new mod or the template mod are installed if necessary.
 
   NOTE: This is designed to be callable from the make command line using the
   helpers call-<macro> goal.
   For example:
     make ${_macro}.PARMS=<kit>.<mod>:<tkit>.<tmod> call-${_macro}
+
   Parameters:
     1 = The <kit>.<mod> name of the new mod.
     2 = The <kit>.<mod> name of the existing mod to use as a template.
@@ -703,6 +717,7 @@ _macro := use-mod
 define _help
 ${_macro}
   Use a mod. The kit containing the mod is installed if necessary.
+
   Parameters:
     1 = A <kit>.<mod> reference.
 endef

@@ -12,56 +12,27 @@ $(call Use-Segment,mods)
 define _help
 Make segment: ${Seg}.mk
 
-A ModFW project is mostly intended to contain variable definitions needed to
-configure mod builds and to create project specific packages using the output
-of mod builds. Each project is maintained in a separate git repo.
+A ModFW project is mostly intended to contain variable definitions needed to configure mod builds and to create project specific packages using the output of mod builds. Each project is maintained in a separate git repo.
 
-Although several projects can exist side by side only one can be active at one
-time. The active project is indicated by the value of the PROJECT variable. Kits
-are installed (cloned into) the project directory making it possible for
-different projects to use different versions of the same kits and mods. Kit
-versions and dependencies are typically specified in the project makefile
-segment. Kit repos are switched to the project specified branches when the
-project is activated.
+Although several projects can exist side by side only one can be active at onetime. The active project is indicated by the value of the PROJECT variable. Kits are installed (cloned into) the project directory making it possible for different projects to use different versions of the same kits and mods. Kit versions and dependencies are typically specified in the project makefile segment. Kit repos are switched to the project specified branches when the project is activated.
 
-Once a project is activated, branches are no longer automatically switched but
-can be manually switched using the branching macros or the git command line.
+Once a project is activated, branches are no longer automatically switched but can be manually switched using the branching macros or the git command line.
 
-It is possible for projects to be dependent upon the output of other projects.
-However, it is recommended this be avoided because of introducing the risk of
-confusion resulting from different kit versions (branches).
+It is possible for projects to be dependent upon the output of other projects. However, it is recommended this be avoided because of introducing the risk of confusion resulting from different kit versions (branches).
 
-This segment uses repo macros in repos.mk help manage ModFW projects. Each
-project is contained in a separate repo. the install-repo macro is used to
-install the active project if it doesn't yet exist in the projects directory.
+This segment uses repo macros in repos.mk help manage ModFW projects. Each project is contained in a separate repo. the install-repo macro is used to install the active project if it doesn't yet exist in the projects directory.
 
-Projects are intended to be self contained. All kits, mods, and tools needed by
-the project are installed within the project directory tree. This simplifies
-removal of a project and helps avoid accumulation of files which are no
-longer relevant and helps avoid conflicts between projects which use different
-versions of kits or tools.
+Projects are intended to be self contained. All kits, mods, and tools needed by the project are installed within the project directory tree. This simplifies removal of a project and helps avoid accumulation of files which are no longer relevant and helps avoid conflicts between projects which use different versions of kits or tools.
 
-Sticky variables are stored in the project subdirectory thus allowing each
-project to have unique values for sticky variables. This segment (${Seg})
-changes STICKY_PATH to point to the project specific sticky variables which are
-also maintained in the repo.
+Sticky variables are stored in the project subdirectory thus allowing each project to have unique values for sticky variables. This segment (${Seg}) changes STICKY_PATH to point to the project specific sticky variables which are also maintained in the repo.
 
-New projects can be created using the mk-modfw-repo or
-mk-repo-from-template macros. When a project repo is created, a project
-makefile segment is generated and stored in the project subdirectory. The
-developer modifies this file as needed.
+New projects can be created using the mk-modfw-repo or mk-repo-from-template macros. When a project repo is created, a project makefile segment is generated and stored in the project subdirectory. The developer modifies this file as needed.
 
-The project makefile segment is typically used to override kit and mod
-variables and to use specific mods. Project specific variables, goals and
-recipes can also be added. This is also used to define the repos and branches
-for the various kits used in the project. See help-repos for more information.
+The project makefile segment is typically used to override kit and mod variables and to use specific mods. Project specific variables, goals and recipes can also be added. This is also used to define the repos and branches for the various kits used in the project. See help-repos for more information.
 
-A new project can be based upon an existing project using the
-mk-repo-from-template macro. See help-repos for more information.
+A new project can be based upon an existing project using the mk-repo-from-template macro. See help-repos for more information.
 
-The project build and staged artifacts are stored in subdirectories of the
-build (BUILD_PATH) and staging (STAGING_PATH) directories. These subdirectories
-normally have the same name as the project but can be overridden.
+The project build and staged artifacts are stored in subdirectories of the build (BUILD_PATH) and staging (STAGING_PATH) directories. These subdirectories normally have the same name as the project but can be overridden.
 
 Command line goals:
   help-<project>
@@ -89,9 +60,9 @@ _var := active_project
 ${_var} :=
 define _help
 ${_var}
-  The project currently in use. Only one project can be in use in a session.
-  A project is in use when its segment has been loaded. This is used by
-  use-project and will equal PROJECT.
+  The project currently in use.
+
+  Only one project can be in use in a session. A project is in use when its segment has been loaded. This is used by use-project and will equal PROJECT.
 endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})
@@ -100,8 +71,7 @@ _var := project_ignored_nodes
 ${_var} := TOOLS_DIR KITS_DIR BUILD_DIR STAGING_DIR DEPLOYMENT_DIR
 define _help
 ${_var}
-  These nodes are not part of the git repository and are therefore ignored using
-  .gitignore.
+  These nodes are not part of the git repository and are therefore ignored using .gitignore.
 endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})
@@ -110,12 +80,7 @@ _var := project_node_names
 ${_var} := PROJECT_STICKY_DIR INC_DIR ${project_ignored_nodes}
 define _help
 ${_var}
-  A project is intended to be self contained meaning all components used to
-  build a project are contained within the project directory making each of
-  the ModFW defined directories child nodes of the project node. This serves to
-  help avoid conflicts where different projects use different versions of
-  the same component. A project is expected to define these attributes and
-  has the option to make them sticky.
+  A project is intended to be self contained meaning all components used to build a project are contained within the project directory making each of the ModFW defined directories child nodes of the project node. This serves to help avoid conflicts where different projects use different versions of the same component. A project is expected to define these attributes and has the option to make them sticky.
 
   See help-modfw_structure for more information.
 
@@ -148,8 +113,8 @@ ${_var} := BIN_DIR INC_DIR LIB_DIR
 define _help
 ${_var}
   Tools used by mods are installed within the project $${TOOLS_DIR} directory.
-  Each tool can provide executables, include files, and libraries. The location
-  of these is defined by the project. A mod can add to this structure as needed.
+
+  Each tool can provide executables, include files, and libraries. The location of these is defined by the project. A mod can add to this structure as needed.
 
   See help-modfw_structure for more information.
 
@@ -176,6 +141,7 @@ _macro := project-exists
 define _help
 ${_macro}
   This returns a non-empty value if a node contains a ModFW repo.
+
   Parameters:
     1 = The name of a previously declared project.
 endef
@@ -186,11 +152,12 @@ ${_macro} = $(call is-modfw-repo,$(1))
 _macro := is-modfw-project
 define _help
 ${_macro}
-  Returns a non-empty value if the project conforms to the ModFW pattern. A
-  ModFW project will always have a makefile segment having the same name as the
-  project and the repo.
-  The project is contained in a node of the same name. The makefile segment file
-  will contain the same name to indicate it is customized for the project.
+  Returns a non-empty value if the project conforms to the ModFW pattern.
+
+  A ModFW project will always have a makefile segment having the same name as the project and the repo.
+
+  The project is contained in a node of the same name. The makefile segment file will contain the same name to indicate it is customized for the project.
+
   Parameters:
     1 = The name of an existing and previously declared project.
 endef
@@ -225,16 +192,10 @@ _macro := declare-project
 define _help
   Declare a project as a repo and a child of the $${PROJECTS_DIR} node.
 
-  By default this declares the active project. Only one project can be the
-  active project. If an alternate project name is used then nodes are given
-  a prefix to avoid name conflicts with the active project. Alternate names
-  are used when declaring new projects (see help-mk-project).
+  By default this declares the active project. Only one project can be the active project. If an alternate project name is used then nodes are given a prefix to avoid name conflicts with the active project. Alternate names are used when declaring new projects (see help-mk-project).
 
   Parameters:
-    1 = Optional name of the project. If this is empty then $${PROJECT} is
-        used. This parameter is provided for using callable macros having
-        a project name as a parameter. Projects declared using using an
-        alternate name are NOT the active project.
+    1 = Optional name of the project. If this is empty then $${PROJECT} is used. This parameter is provided for using callable macros having a project name as a parameter. Projects declared using using an alternate name are NOT the active project.
 endef
 help-${_macro} := $(call _help)
 $(call Add-Help,${_macro})
@@ -293,8 +254,9 @@ endef
 
 _macro := undeclare-project
 define _help
-  Remove a project declaration. The corresponding repo and node are also
-  undeclared. The non-sticky project attributes are undefined.
+  Remove a project declaration.
+
+  The corresponding repo and node are also undeclared. The non-sticky project attributes are undefined.
 
   Parameters:
     1 = The name of the project.
@@ -349,6 +311,7 @@ _macro := display-project
 define _help
 ${_macro}
   Display project attributes.
+
   Parameters:
     1 = An optional name of the project. This defaults to ${PROJECT}.
 endef
@@ -381,8 +344,10 @@ $(call Add-Help-Section,project-install,Macros for creating projects.)
 _macro := gen-project-gitignore
 define _help
 ${_macro}
-  Generate the .gitignore file text for a project. The ignored items are
-  relative to the project directory.
+  Generate the .gitignore file text for a project.
+
+  The ignored items are relative to the project directory.
+
   Parameters:
     1 = The project name.
 endef
@@ -399,12 +364,11 @@ endef
 _macro := mk-project
 define _help
 ${_macro}
-  Create and initialize a new project repo. The project node is declared to be
-  a child of the PROJECTS_DIR node. The node is then created and initialized
-  to be a repo.
+  Create and initialize a new project repo.
 
-  NOTE: This is designed to be callable from the make command line using the
-  helper call-${_macro} goal.
+  The project node is declared to be a child of the PROJECTS_DIR node. The node is then created and initialized to be a repo.
+
+  NOTE: This is designed to be callable from the make command line using the helper call-${_macro} goal.
   For example:
     make ${_macro}.PARMS=<prj> [<prj>.URL=<url>] [<prj>.BRANCH=<branch>] call-${_macro}
 
@@ -454,11 +418,9 @@ endef
 _macro := mk-project-from-template
 define _help
 ${_macro}
-  Declare and create a new project in the PROJECTS_DIR node using another
-  project in the PROJECTS_DIR node as a template.
+  Declare and create a new project in the PROJECTS_DIR node using another project in the PROJECTS_DIR node as a template.
 
-  NOTE: This is designed to be callable from the make command line using the
-  helper call-<macro> goal.
+  NOTE: This is designed to be callable from the make command line using the helper call-<macro> goal.
   For example:
     make ${_macro}.PARMS=<prj>:<tmpl> call-${_macro}
 
@@ -502,11 +464,11 @@ endef
 _macro := rm-project
 define _help
 ${_macro}
-  Remove an existing project. The project node is declared to be a child of
-  the PROJECTS_DIR node. The node is then removed.
+  Remove an existing project.
 
-  NOTE: This is designed to be callable from the make command line using the
-  helper call-${_macro} goal.
+  The project node is declared to be a child of the PROJECTS_DIR node. The node is then removed.
+
+  NOTE: This is designed to be callable from the make command line using the helper call-${_macro} goal.
   For example:
     make ${_macro}.PARMS=<prj> call-${_macro}
 
@@ -545,11 +507,11 @@ $(call Add-Help-Section,project-use,The primary macro for using projects.)
 _macro := install-project
 define _help
 ${_macro}
-  Use this to install a project repo. This declares and clones an existing repo
-  into the $${PROJECTS_DIR} node directory.
+  Use this to install a project repo.
 
-  If the project has already been declared then the existing project
-  declaration is used.
+  This declares and clones an existing repo into the $${PROJECTS_DIR} node directory.
+
+  If the project has already been declared then the existing project declaration is used.
 
   Parameters:
     1 = The name of the project to install.
@@ -598,8 +560,9 @@ _macro := use-project
 define _help
 ${_macro}
   Declares a project which in turn declares a project node as a child of the
-  PROJECTS_DIR node. If the project repo doesn't exist locally then it is
-  installed into the PROJECTS_DIR node.
+  PROJECTS_DIR node.
+
+  If the project repo doesn't exist locally then it is installed into the PROJECTS_DIR node.
 
   NOTE: The PROJECTS_DIR node must have been previously declared and must exist.
 

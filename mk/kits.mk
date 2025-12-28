@@ -67,10 +67,7 @@ _var := kit_node_names
 ${_var} := MODS_DIR $(kit_ignored_nodes)
 define _help
 ${_var}
-  A kit is a repo which contains a number of mods. A kit also defines context
-  for the mods withing a kit. All mods contained within a kit are contained
-  within the kit directory making each of the mod directories child nodes of
-  the kit node.
+  A kit is a repo which contains a number of mods. A kit also defines context for the mods withing a kit. All mods contained within a kit are contained within the kit directory making each of the mod directories child nodes of the kit node.
 
 Kit node names:
 $(foreach _node,${kit_node_names},
@@ -94,11 +91,9 @@ ${_var}
   <kit>.mods_path
     Where mods are stored within the kit.
   <kit>.build_path
-    The path to the kit build directory. The build directory is where
-    intermediate files are stored.
+    The path to the kit build directory. The build directory is where intermediate files are stored.
   <kit>.staging_path
-    The path to the kit staging directory. The staging directory is where
-    the kit deliverables are stored.
+    The path to the kit staging directory. The staging directory is where the kit deliverables are stored.
 
   The repo attributes are:
 ${help-repo_attributes}
@@ -142,11 +137,8 @@ ${_macro} = $(if ${$(1).mods},1)
 _macro := is-modfw-kit
 define _help
 ${_macro}
-  Returns a non-empty value if the kit conforms to the ModFW pattern. A
-  ModFW kit will always have a makefile segment having the same name as the
-  kit and the repo.
-  The kit is contained in a node of the same name. The makefile segment file
-  will contain the same name to indicate it is customized for the kit.
+  Returns a non-empty value if the kit conforms to the ModFW pattern. A ModFW kit will always have a makefile segment having the same name as the kit and the repo.
+  The kit is contained in a node of the same name. The makefile segment file will contain the same name to indicate it is customized for the kit.
   Parameters:
     1 = The name of an existing and previously declared kit.
 endef
@@ -237,8 +229,7 @@ endef
 
 _macro := undeclare-kit
 define _help
-  Remove a kit declaration. The corresponding repo and node are also
-  undeclared. The non-sticky kit attributes are undefined.
+  Remove a kit declaration. The corresponding repo and node are also undeclared. The non-sticky kit attributes are undefined.
   Parameters:
     1 = The name of the kit.
 endef
@@ -348,8 +339,7 @@ $(call Add-Help-Section,kit-install,Macros for cloning or creating kits.)
 _macro := gen-kit-gitignore
 define _help
 ${_macro}
-  Generate the .gitignore file text for a kit. The ignored items are relative
-  to the kit directory.
+  Generate the .gitignore file text for a kit. The ignored items are relative to the kit directory.
   Parameters:
     1 = The kit name.
 endef
@@ -366,17 +356,13 @@ endef
 _macro := mk-kit
 define _help
 ${_macro}
-  Create and initialize a new kit repo. The kit node is declared to be
-  a child of the $${PROJECT}.$${KITS_DIR} node. The node is then created and
-  initialized to be a repo.
+  Create and initialize a new kit repo. The kit node is declared to be a child of the $${PROJECT}.$${KITS_DIR} node. The node is then created and initialized to be a repo.
 
-  If the node for the kit has already been declared then the existing
-  declaration is used.
+  If the node for the kit has already been declared then the existing declaration is used.
 
   Use rm-kit to remove a kit.
 
-  NOTE: This is designed to be callable from the make command line using the
-  helper call-${_macro} goal.
+  NOTE: This is designed to be callable from the make command line using the helper call-${_macro} goal.
   For example:
     make ${_macro}.PARMS=<kit> [<kit>.URL=<url>] [<kit>.BRANCH=<branch>] call-${_macro}
   Parameters:
@@ -421,13 +407,10 @@ endef
 _macro := mk-kit-from-template
 define _help
 ${_macro}
-  Declare and create a new kit in the KTTS_DIR node using another
-  kit in the KITS_DIR node as a template.
-  NOTE: This is designed to be callable from the make command line using the
-  helper call-<macro> goal.
+  Declare and create a new kit in the KTTS_DIR node using another kit in the KITS_DIR node as a template.
+  NOTE: This is designed to be callable from the make command line using the helper call-<macro> goal.
 
-  If the kit has already been declared then the existing kit declaration is
-  used.
+  If the kit has already been declared then the existing kit declaration is used.
 
   For example:
     make ${_macro}.PARMS=<prj>:<tmpl> call-${_macro}
@@ -465,11 +448,9 @@ endef
 _macro := rm-kit
 define _help
 ${_macro}
-  Remove an existing kit. The kit node is declared to be a child of
-  the KITS_DIR node within the ${PROJECT} project. The node is then removed.
+  Remove an existing kit. The kit node is declared to be a child of the KITS_DIR node within the ${PROJECT} project. The node is then removed.
 
-  NOTE: This is designed to be callable from the make command line using the
-  helper call-${_macro} goal.
+  NOTE: This is designed to be callable from the make command line using the helper call-${_macro} goal.
   For example:
     make ${_macro}.PARMS=<kit> call-${_macro}
 
@@ -502,11 +483,9 @@ endef
 _macro := install-kit
 define _help
 ${_macro}
-  Use this to install a kit repo. This declares and clones an existing repo into
-  the $${KITS_DIR} node directory.
+  Use this to install a kit repo. This declares and clones an existing repo into the $${KITS_DIR} node directory.
 
-  If the kit has already been declared then the existing kit declaration is
-  used.
+  If the kit has already been declared then the existing kit declaration is used.
 
   Parameters:
     1 = The name of the kit to install.
@@ -554,8 +533,7 @@ $(call Add-Help-Section,kit-use,The primary macro for using kits.)
 _macro := use-kit
 define _help
 ${_macro}
-  Use this to install a kit repo in the kit. This clones an existing repo into
-  the $${KITS_DIR} node directory.
+  Use this to install a kit repo in the kit. This clones an existing repo into the $${KITS_DIR} node directory.
 
   NOTE: This is intended to be called only from use-mod.
 

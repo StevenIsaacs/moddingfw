@@ -12,13 +12,9 @@ $(call Use-Segment,nodes)
 define _help
 Make segment: ${Seg}.mk
 
-This segment defines macros for managing ModFW repos. They are intended to
-be called only by the higher level macros (see help-projects, help-kits, and
-help-mods).
+This segment defines macros for managing ModFW repos. They are intended to be called only by the higher level macros (see help-projects, help-kits, and help-mods).
 
-A ModFW repo contains, at minimum, a makefile segment having the same name as
-the repo. The full path to this segment is available in the <repo>.seg_f
-attribute.
+A ModFW repo contains, at minimum, a makefile segment having the same name as the repo. The full path to this segment is available in the <repo>.seg_f attribute.
 
 Command line goals:
   help-${SegUN}   Display this help.
@@ -41,24 +37,21 @@ _var := repo_attributes
 ${_var} := seg_f seg_un repo_url repo_branch
 define _help
 ${_var}
-  A ModFW at minimum contains a makefile segment which is named using the
-  repo node name.
+  A ModFW at minimum contains a makefile segment which is named using the repo node name.
 
   A repo extends a node with the following additional attributes:
 
   <repo>.seg_f
-    The path and file name of the makefile segment for the repo. NOTE: If
-    this file exists then the repo is a ModFW repo.
+    The path and file name of the makefile segment for the repo. NOTE: If this file exists then the repo is a ModFW repo.
+
   <repo>.seg_un
     The unique name for the repo derived from <repo>.seg_f.
+
   <repo>.repo_url
-    The URL of the server for cloning the repo from either a remote server
-    or a local directory. Note that the name of the repo does not need to be
-    the same as the name of the repo in the URL. If this is empty then the repo
-    is not a clone and therefore cannot be pushed.
+    The URL of the server for cloning the repo from either a remote server or a local directory. Note that the name of the repo does not need to be the same as the name of the repo in the URL. If this is empty then the repo is not a clone and therefore cannot be pushed.
+
   <repo>.repo_branch
-    The branch to switch to after cloning the repo. This is also used to derive
-    the name of the node in which the repo resides.
+    The branch to switch to after cloning the repo. This is also used to derive the name of the node in which the repo resides.
 
   The node attributes are:
 ${help-node_attributes}
@@ -84,18 +77,16 @@ define _help
 ${_macro}
   Declare a previously declared node to be a repo and define the repo
   attributes.
+
+  NOTE: See help-repo_attributes for more information.
+
   Parameters:
     1 = <repo>: The name of the node which will contain the repo.
-    2 = The URL for cloning the repo. This can reference either a remote
-        server (e.g. https://<server>/<repo> or git@<server>/<repo>) or full
-        path to an existing local repo.
-        If this is empty and <repo>.URL is empty then DEFAULT_URL/<repo> is
-        used.
-        If this is equal to "${LOCAL_REPO}" then the repo is not a clone of
-        another repo.
+    2 = The URL for cloning the repo. This can reference either a remote server (e.g. https://<server>/<repo> or git@<server>/<repo>) or full path to an existing local repo.
+    If this is empty and <repo>.URL is empty then DEFAULT_URL/<repo> is used.
+    If this is equal to "${LOCAL_REPO}" then the repo is not a clone of another repo.
     3 = The repo branch to switch to when cloning or creating the repo.
-        If this is empty and <repo>.repo_branch is empty then DEFAULT_BRANCH is used.
-${help-repo_attributes}
+    If this is empty and <repo>.repo_branch is empty then DEFAULT_BRANCH is used.
 endef
 help-${_macro} := $(call _help)
 $(call Add-Help,${_macro})
@@ -151,11 +142,12 @@ _macro := undeclare-repo
 define _help
 ${_macro}
   Undeclare node as a repo and undefine the repo attributes.
+
   NOTE: The node containing the repo is not affected.
   NOTE: See help-repo_attributes for more information.
+
   Parameters:
     1 = <repo>: The name of the node previously declared as a repo.
-${help-repo_attributes}
 endef
 help-${_macro} := $(call _help)
 $(call Add-Help,${_macro})
@@ -176,6 +168,7 @@ _macro := repo-exists
 define _help
 ${_macro}
   This returns a non-empty value if a node contains a git repo.
+
   Parameters:
     1 = The name of a previously declared repo.
 endef
@@ -187,6 +180,7 @@ _macro := is-modfw-repo
 define _help
 ${_macro}
   This returns a non-empty value if a node contains a ModFW style repo.
+
   Parameters:
     1 = The name of a previously declared repo.
 endef
@@ -204,6 +198,7 @@ _macro := is-a-clone-repo
 define _help
 ${_macro}
   Returns non-empty if the repo is a clone of another repo.
+
   Paramters:
     1 = The repo to check.
 endef
@@ -217,6 +212,7 @@ _macro := get-repo-url
 define _help
 ${_macro}
   Use git to get the URL for the repo.
+
   Parameters:
     1 = The name of a previously declared and existing repo.
   Returns:
@@ -251,6 +247,7 @@ _macro := get-active-branch
 define _help
 ${_macro}
   Use git to get the active branch for the repo.
+
   Parameters:
     1 = The name of an existing and previously declared repo.
   Returns:
@@ -287,6 +284,7 @@ _macro := display-repo
 define _help
 ${_macro}
   Display repo attributes.
+
   Parameters:
     1 = The name of the repo.
 endef
@@ -310,16 +308,17 @@ $(call Add-Help-Section,repo-ifs,Macros for checking repo status.)
 _macro := repo-branch-exists
 define _help
 ${_macro}
-  Check to see if a repo has a given branch. A non-empty value is returned if
-  the branch exists.
-  NOTE: This is designed to be callable from the make command line using the
-  helpers call-${_macro} goal.
+  Check to see if a repo has a given branch.
+
+  A non-empty value is returned if the branch exists.
+
+  NOTE: This is designed to be callable from the make command line using the helpers call-${_macro} goal.
   For example:
     make ${_macro}.PARMS=<repo>:<branch> call-${_macro}
+
   Parameters:
     1 = The repo to check.
-    2 = The name of the branch to check. If this is empty then the
-        <repo>.repo_branch attribute is used.
+    2 = The name of the branch to check. If this is empty then the <repo>.repo_branch attribute is used.
   Returns:
     The the branch name. This is empty if the branch does not exist.
     Run_Rc and Run_Output
@@ -354,12 +353,14 @@ endef
 _macro := branches
 define _help
 ${_macro}
-  Run git to get a list of branches for a repo. The repo must have been
-  declared at some point and must exist.
-  NOTE: This is designed to be callable from the make command line using the
-  helpers call-${_macro} goal.
+  Run git to get a list of branches for a repo.
+
+  The repo must have been declared at some point and must exist.
+
+  NOTE: This is designed to be callable from the make command line using the helpers call-${_macro} goal.
   For example:
     make ${_macro}.PARMS=<repo> call-${_macro}
+
   Parameters:
     1 = The repo for which to display the branches.
 endef
@@ -393,13 +394,15 @@ $(call Add-Help-Section,repo-branching,Macros for managing repo branches.)
 _macro := switch-branch
 define _help
 ${_macro}
-  Switch a repo to a different branch. The <repo>.repo_branch attribute is
-  updated to indicate which branch.
-  NOTE: This is designed to be callable from the make command line using the
-  helpers call-${_macro} goal.
+  Switch a repo to a different branch.
+
+  The <repo>.repo_branch attribute is updated to indicate which branch.
+
+  NOTE: This is designed to be callable from the make command line using the helpers call-${_macro} goal.
 
   For example:
     make ${_macro}.PARMS=<repo>:<branch> call-${_macro}
+
   Parameters:
     1 = The repo to switch the branch.
     2 = The name of the branch to switch to. If this is empty then
@@ -445,16 +448,18 @@ endef
 _macro := mk-branch
 define _help
 ${_macro}
-  Create a new branch in a repo and switch to the new branch. This does NOT
-  change the <repo>.BRANCH sticky variable.
+  Create a new branch in a repo and switch to the new branch.
+
+  This does NOT change the <repo>.BRANCH sticky variable.
+
   NOTE: This is designed to be callable from the make command line using the
   helpers call-${_macro} goal.
   For example:
     make ${_macro}.PARMS=<repo>:<branch> call-$(_macro)
+
   Parameters:
     1 = The repo in which to create the new branch.
-    2 = The name of the branch to create. If this is empty then
-        <repo>.repo_branch is used.
+    2 = The name of the branch to create. If this is empty then <repo>.repo_branch is used.
 endef
 help-${_macro} := $(call _help)
 $(call Add-Help,${_macro})
@@ -492,10 +497,11 @@ _macro := rm-branch
 define _help
 ${_macro}
   Remove an existing branch from a repo.
-  NOTE: This is designed to be callable from the make command line using the
-  helpers call-${_macro} goal.
+
+  NOTE: This is designed to be callable from the make command line using the helpers call-${_macro} goal.
   For example:
     make ${_macro}.PARMS=<repo>:<branch> call-$(_macro)
+
   Parameters:
     1 = The repo to switch the branch.
     2 = The name of the branch to create.
@@ -529,10 +535,10 @@ define _help
 ${_macro}
   Use git to add a file to an existing repository.
 
-  NOTE: This is designed to be callable from the make command line using the
-  helpers call-${_macro} goal.
+  NOTE: This is designed to be callable from the make command line using the helpers call-${_macro} goal.
   For example:
     make ${_macro}.PARMS=<repo>+<file> call-${_macro}
+
   Parameters:
     1 = The repo to which to add the file.
     2 = The file to add.
@@ -562,10 +568,10 @@ ${_macro}
 
   This is provided help the dev avoid having to navigate to repo directories.
 
-  NOTE: This is designed to be callable from the make command line using the
-  helpers call-${_macro} goal.
+  NOTE: This is designed to be callable from the make command line using the helpers call-${_macro} goal.
   For example:
     make ${_macro}.PARMS="<repo> <repo>..." call-${_macro}
+
   Parameters:
     1 = The list of repos to display differences. If this is empty then all
         repos which have been declared will be displayed.
@@ -608,10 +614,10 @@ ${_macro}
 
   This is provided help the dev avoid having to navigate to repo directories.
 
-  NOTE: This is designed to be callable from the make command line using the
-  helpers call-${_macro} goal.
+  NOTE: This is designed to be callable from the make command line using the helpers call-${_macro} goal.
   For example:
     make ${_macro}.PARMS="<repo> <repo>..." call-${_macro}
+
   Parameters:
     1 = The list of repos to display. If this is empty then all
         repos which have been declared will be displayed.
@@ -654,14 +660,12 @@ ${_macro}
 
   This is provided help the dev avoid having to navigate to repo directories.
 
-  WARNING: Because of the potential size of commit logs the output is routed to
-  the log file. Because of this this the log file must be enabled.
-  See help-LOG_FILE for more information.
+  WARNING: Because of the potential size of commit logs the output is routed to the log file. Because of this this the log file must be enabled. See help-LOG_FILE for more information.
 
-  NOTE: This is designed to be callable from the make command line using the
-  helpers call-${_macro} goal.
+  NOTE: This is designed to be callable from the make command line using the helpers call-${_macro} goal.
   For example:
     make ${_macro}.PARMS="<repo> <repo>..." call-${_macro}
+
   Parameters:
     1 = The list of repos to display. If this is empty then all
         repos which have been declared will be displayed.
@@ -704,8 +708,8 @@ endef
 _macro := repo-has-changes
 define _help
 ${_macro}
-  Returns a non-empty string if there are files which have changed since the
-  last commit.
+  Returns a non-empty string if there are files which have changed since the last commit.
+
   Parameters:
     1 = The name of the repo.
   Returns:
@@ -752,18 +756,18 @@ $(call Add-Help,${_var})
 _macro := commit-repos
 define _help
 ${_macro}
-  Commit all changes to one or more repos. The dev is prompted to enter a
-  commit message which will be used for all repos being committed.
+  Commit all changes to one or more repos.
+
+  The dev is prompted to enter a commit message which will be used for all repos being committed.
 
   This is provided help the dev avoid having to navigate to repo directories.
 
-  NOTE: This is designed to be callable from the make command line using the
-  helpers call-${_macro} goal.
+  NOTE: This is designed to be callable from the make command line using the helpers call-${_macro} goal.
   For example:
     make ${_macro}.PARMS="<repo> <repo>..." call-${_macro}
+
   Parameters:
-    1 = The list of repos to commit changes to. If this is empty then all
-        repos which have been declared will be committed.
+    1 = The list of repos to commit changes to. If this is empty then all repos which have been declared will be committed.
 endef
 help-${_macro} := $(call _help)
 $(call Add-Help,${_macro})
@@ -828,13 +832,12 @@ ${_macro}
 
   This is provided help the dev avoid having to navigate to repo directories.
 
-  NOTE: This is designed to be callable from the make command line using the
-  helpers call-${_macro} goal.
+  NOTE: This is designed to be callable from the make command line using the helpers call-${_macro} goal.
   For example:
     make ${_macro}.PARMS="<repo> <repo>..." call-${_macro}
+
   Parameters:
-    1 = The list of repos to push. If this is empty then all repos which have
-        been declared will be pushed.
+    1 = The list of repos to push. If this is empty then all repos which have been declared will be pushed.
 endef
 help-${_macro} := $(call _help)
 $(call Add-Help,${_macro})
@@ -875,8 +878,10 @@ $(call Add-Help-Section,repo-install,Macros for cloning and creating repos.)
 _macro := remote-repo-exists
 define _help
 ${_macro}
-  Check to see if a remote repo exists. A non-empty value is returned if
-  the repo exists.
+  Check to see if a remote repo exists.
+
+  A non-empty value is returned if the repo exists.
+
   Parameters:
     1 = The repo to check.
     2 = The URL to check. If this is empty then the <repo>.repo_url variable.
@@ -917,14 +922,14 @@ endef
 _macro := set-repo-origin
 define _help
 ${_macro}
-  Change the repo origin to a different URL. This is mostly intended to be used
-  when creating new repos but can be used to change the origin of an existing
-  repo.
+  Change the repo origin to a different URL.
 
-  NOTE: This is designed to be callable from the make command line using the
-  helpers call-${_macro} goal.
+  This is mostly intended to be used when creating new repos but can be used to change the origin of an existing repo.
+
+  NOTE: This is designed to be callable from the make command line using the helpers call-${_macro} goal.
   For example:
     make ${_macro}.PARMS=<repo>:<url> call-$(_macro)
+
   Parameters:
     1 = The repo for which to set the origin.
     2 = The new url. If this is empty then <repo>.URL is used.
@@ -978,10 +983,12 @@ endef
 _macro := clone-repo
 define _help
 ${_macro}
-  Use git to clone either a local or remote repo to a declared repo directory
-  and switch to the specified branch. The repo node cannot exist.
-  The repo branch is set to <repo>.repo_branch. If the branch does not exist
-  the branch is created.
+  Use git to clone either a local or remote repo to a declared repo directory and switch to the specified branch.
+
+  The repo node cannot exist.
+
+  The repo branch is set to <repo>.repo_branch. If the branch does not exist the branch is created.
+
   Parameters:
     1 = The name of a previously declared repo.
 endef
@@ -1009,16 +1016,13 @@ endef
 _macro := mk-repo-from-template
 define _help
 ${_macro}
-  Use an existing ModFW repo as a template to create a new ModFW repo. The URL
-  of the new repo is set to point to the template repo. The template repo is
-  cloned to the new repo node and a new makefile segment is created using the
-  origin repo segment as a template. The origin of the new repo is removed to
-  avoid accidental commits to the template repo. The new makefile segment is
-  then added and committed to the repo.
+  Use an existing ModFW repo as a template to create a new ModFW repo.
+
+  The URL of the new repo is set to point to the template repo. The template repo is cloned to the new repo node and a new makefile segment is created using the origin repo segment as a template. The origin of the new repo is removed to avoid accidental commits to the template repo. The new makefile segment is then added and committed to the repo.
+
   Parameters:
     1 = The name of the new repo.
-    2 = The existing local or remote repo to use as the template for the new
-        repo.
+    2 = The existing local or remote repo to use as the template for the new repo.
   Returns:
     Run_Rc and Run_Output
       See Run (help-helpers).
@@ -1062,10 +1066,12 @@ endef
 _macro := init-modfw-repo
 define _help
 ${_macro}
-  Use git to initialize a new repo. If a repo makefile segment does not exist
-  a new makefile segment is generated from a template and committed to the repo. After initialization the dev needs to customize the makefile segment for its intended use.
-  NOTE: Any existing files in the repo directory are automatically added to the
-  repo.
+  Use git to initialize a new repo.
+
+  If a repo makefile segment does not exist a new makefile segment is generated from a template and committed to the repo. After initialization the dev needs to customize the makefile segment for its intended use.
+
+  NOTE: Any existing files in the repo directory are automatically added to the repo.
+
   Parameters:
     1 = The name of a previously declared repo.
 endef
@@ -1116,9 +1122,10 @@ endef
 _macro := mk-modfw-repo
 define _help
 ${_macro}
-  Create a new local repo in a previously created node. The node is initialized
-  to contain a repo. A makefile segment for the new repo is generated and added
-  to the repo along with any other files already existing in the node.
+  Create a new local repo in a previously created node.
+
+  The node is initialized to contain a repo. A makefile segment for the new repo is generated and added to the repo along with any other files already existing in the node.
+
   Parameters:
     1 = The name of the new repo.
 endef
@@ -1146,15 +1153,18 @@ endef
 _macro := rm-repo
 define _help
 ${_macro}
-  Remove a repo. This deletes the repo .git directory and leaves all
-  other files intact.
+  Remove a repo.
+
+  This deletes the repo .git directory and leaves all other files intact.
+
   To completely remove the repository contents use rm-node instead.
+
   WARNING: Use with care! This can have serious consequences.
+
   Parameters:
     1 = The name of the repo to destroy.
     2 = An optional prompt for Confirm.
-    3 = If not empty then use this as the response. When equal to y then
-        remove the repo without a prompt.
+    3 = If not empty then use this as the response. When equal to y then remove the repo without a prompt.
 endef
 help-${_macro} := $(call _help)
 $(call Add-Help,${_macro})
@@ -1201,15 +1211,12 @@ $(call Add-Help-Section,repo-use,The primary macro for using repos.)
 _macro := install-repo
 define _help
 ${_macro}
-  Install a repo in a declared node. A repo must always have a parent node. The
-  parent node must have been previously declared and must exist. Similarly,
-  the repo must have been previously declared. If the repo doesn't exist
-  locally, the repo is cloned either from a local repo or from a remote server
-  depending upon the URL. Commits to the repo can be pushed to the origin repo
-  providing correct credentials are used.
+  Install a repo in a declared node.
+
+  A repo must always have a parent node. The parent node must have been previously declared and must exist. Similarly, the repo must have been previously declared. If the repo doesn't exist locally, the repo is cloned either from a local repo or from a remote server depending upon the URL. Commits to the repo can be pushed to the origin repo providing correct credentials are used.
+
   Parameters:
-    1 = <repo>: The name of the repo. This is also the name of the tree node
-        for the repo.
+    1 = <repo>: The name of the repo. This is also the name of the tree node for the repo.
 endef
 help-${_macro} := $(call _help)
 $(call Add-Help,${_macro})

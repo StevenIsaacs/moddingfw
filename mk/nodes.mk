@@ -10,39 +10,34 @@ $(call Enter-Segment,Macros to support ModFW nodes.)
 define _help
 Make segment: ${Seg}.mk
 
-In ModFW nodes are structures used to manage directory trees where each
-directory is described using a node. Only ModFW related directories are
+In ModFW nodes are structures used to manage directory trees where each directory is described using a node. Only ModFW related directories are
 described using nodes.
 
-A node is essentially the point where a branch in a tree occurs. A node is
-essentially a directory in the file system. The name of the node and the name
-of the directory are the same. In ModFW each node must contain a makefile
-segment having the same name as the node and, therefore, the directory.
+A node is essentially the point where a branch in a tree occurs. A node isessentially a directory in the file system. The name of the node and the name
+of the directory are the same. In ModFW each node must contain a makefile segment having the same name as the node and, therefore, the directory.
 
 In ModFW the following terms are used to define nodes:
 
   families: A number of unrelated trees.
 
-  tree: ModFW uses a tree structure to organize components needed to assemble
-  deliverables. This structure is similar to a classic tree structure as
-  described here: https://en.wikipedia.org/wiki/Tree_(data_structure)
+  tree:
+    ModFW uses a tree structure to organize components needed to assemble deliverables. This structure is similar to a classic tree structure as described here:
+    https://en.wikipedia.org/wiki/Tree_(data_structure)
 
-  node: A node data structure describes a directory in the file system. A node
-  can be contained in another node (i.e. have a parent). Conversely, a node can
-  contain other nodes (have children). Semantically, a node serves to
-  differentiate directories which are part of the ModFW structure apart from
-  unrelated directories. A node must at minimum contain a makefile segment
-  (seg) having the same name as the node itself.
+  node:
+    A node data structure describes a directory in the file system. A node can be contained in another node (i.e. have a parent). Conversely, a node can contain other nodes (have children). Semantically, a node serves to differentiate directories which are part of the ModFW structure apart from unrelated directories. A node must at minimum contain a makefile segment (seg) having the same name as the node itself.
 
-  root: A root node has no parent but can have children. The ModFW directory is
-  a root node. Typically the project and kit directories are children of the
-  ModFW node but can exist in other locations making them root nodes as well.
+  root:
+    A root node has no parent but can have children. The ModFW directory is a root node. Typically the project and kit directories are children of the ModFW node but can exist in other locations making them root nodes as well.
 
-  child: A child node always has a parent and can have children.
+  child:
+    A child node always has a parent and can have children.
 
-  sibling: A node which has the same parent as another node.
+  sibling:
+    A node which has the same parent as another node.
 
-  descendant: A node's children and children of children and so on.
+  descendant:
+    A node's children and children of children and so on.
 
   Here's an example tree:
   >-root
@@ -82,23 +77,26 @@ _var := node_attributes
 ${_var} := name node_un var parent children path dir
 define _help
 ${_var}
-  ModFW components are organized into a classic tree structure. Each node of a
-  ModFW tree has the following attributes:
+  ModFW components are organized into a classic tree structure. Each node of a ModFW tree has the following attributes:
+
   <node>.name
     The name of the node.
+
   <node>.node_un
-    The unique name of the node in dot notation. In the case of a root node
-    this is the directory of the node and the name (e.g. <dir>.<node>). In the
-    case of a child node this is the name of the parent and the node
-    (e.g. <parent>.<node>).
+    The unique name of the node in dot notation. In the case of a root node this is the directory of the node and the name (e.g. <dir>.<node>). In the case of a child node this is the name of the parent and the node (e.g. <parent>.<node>).
+
   <node>.var
     A shell variable compatible form of the node name.
+
   <node>.parent
     The name of the parent node. If this is empty then the node is a root node.
+
   <node>.children
     This is a list of node names of all children of this node.
+
   <node>.path
     The full path to the node in the file system.
+
   <node>.dir
     The name of the directory for the node.
 endef
@@ -111,6 +109,7 @@ _macro := node-is-declared
 define _help
 ${_macro}
   Returns a non-empty value if the node has been declared.
+
   Parameters:
     1 = The node name.
 endef
@@ -122,6 +121,7 @@ _macro := node-exists
 define _help
 ${_macro}
   Returns a non-empty value if the node path exists.
+
   Parameters:
     1 = The node name.
 endef
@@ -133,6 +133,7 @@ _macro := is-a-child-node
 define _help
 ${_macro}
   Returns a non-empty value if the node is a child node.
+
   Parameters:
     1 = The child node name.
 endef
@@ -144,6 +145,7 @@ _macro := is-a-child-of
 define _help
 ${_macro}
   Returns a non-empty value if the node is a child of the parent.
+
   Parameters:
     1 = The child node name.
     2 = The parent node name.
@@ -157,9 +159,11 @@ $(call Add-Help-Section,node-reports,Macros for reporting nodes.)
 _macro := display-node-descendants
 define _help
 ${_macro}
-  Display all of the children of a node. If the children have children then
-  they are displayed first.
+  Display all of the children of a node.
+
+  If the children have children then they are displayed first.
   NOTE: This recursively calls itself when a node has children.
+
   Parameters:
     1 = The node for which to display the descendants.
 endef
@@ -183,6 +187,7 @@ _macro := display-node
 define _help
 ${_macro}
   Display node attributes.
+
   Parameters:
     1 = The name of the node.
 endef
@@ -219,6 +224,7 @@ _macro := display-node-tree
 define _help
 ${_macro}
   Display a tree starting with a node.
+
   Parameters:
     1 = The name of the node.
 endef
@@ -256,6 +262,7 @@ _macro := declare-root-node
 define _help
 ${_macro}
   Declare a root node for a new tree. A root node has no parent.
+
   Parameters:
     1 = The name of the node (<node>).
     2 = This is the path (<path>) to the directory where the node contents
@@ -289,8 +296,11 @@ endef
 _macro := undeclare-root-node
 define _help
 ${_macro}
-  Remove a root node declaration. All of the child nodes are also undeclared.
+  Remove a root node declaration.
+
+  All of the child nodes are also undeclared.
   NOTE: This does not affect the node files or directory.
+
   Parameters:
     1 = The root node to undeclare.
 endef
@@ -317,13 +327,14 @@ endef
 _macro := declare-child-node
 define _help
 ${_macro}
-  Declare a node in a ModFW tree. A child node uses its parent node path. The
-  parent node must have been previously declared.
+  Declare a node in a ModFW tree.
+
+  A child node uses its parent node path. The parent node must have been previously declared.
+
   Parameters:
     1 = The name of the node.
     2 = The name of the parent node.
-    3 = If not empty use this as the directory name in the path instead of
-        using the node name.
+    3 = If not empty use this as the directory name in the path instead of using the node name.
 endef
 help-${_macro} := $(call _help)
 $(call Add-Help,${_macro})
@@ -364,11 +375,15 @@ endef
 _macro := undeclare-child-node
 define _help
 ${_macro}
-  Remove a child node declaration. Child nodes must have parents. If there is
-  no parent then an error will be issued and the node will not be undeclared.
+  Remove a child node declaration.
+
+  Child nodes must have parents. If there is no parent then an error will be issued and the node will not be undeclared.
+
   If the child node also has children then an error will be issued and the
   node will not be undeclared.
+
   NOTE: This does not affect the node files or directory.
+
   Parameters:
     1 = The root node to undeclare.
 endef
@@ -400,9 +415,12 @@ endef
 _macro := undeclare-node-descendants
 define _help
 ${_macro}
-  Undeclare all of the children of a node. If the children have children then
-  they are undeclared first.
+  Undeclare all of the children of a node.
+
+  If the children have children then they are undeclared first.
+
   NOTE: This recursively calls itself when a node has children.
+
   Parameters:
     1 = The node for which to undeclare the descendants.
 endef
@@ -427,16 +445,15 @@ $(call Add-Help-Section,node-mk-remove,Macros for creating and removing nodes.)
 _macro := remap-node
 define _help
 ${_macro}
-  Map a node onto a different directory structure. This changes the node
-  path and the name of the node directory.
+  Map a node onto a different directory structure.
 
-  This changes the attributes <node>.path and <node>.dir. The attribute
-  <node>.dir is set to equal the last directory in the path.
+  This changes the node path and the name of the node directory.
+
+  This changes the attributes <node>.path and <node>.dir. The attribute <node>.dir is set to equal the last directory in the path.
 
   WARNING: A trailing slash in the path (/) will cause unpredictable results.
 
-  NOTE: This MUST be called after declaring the node and before using mk-node
-  to create the node.
+  NOTE: This MUST be called after declaring the node and before using mk-node to create the node.
 
   Parameters:
     1 = The node name.
@@ -459,8 +476,9 @@ endef
 _macro := mk-node
 define _help
 ${_macro}
-  Create the node path if it doesn't already exist. The node must first be
-  declared.
+  Create the node path if it doesn't already exist.
+
+  The node must first be declared.
 
   NOTE: If the parent node does not exist it too will be created.
 
@@ -487,11 +505,11 @@ _macro := rm-node
 define _help
 ${_macro}
   Delete all files and subdirectories for the node.
-  WARNING: This is potentially destructive and cannot be undone, unless of
-  course, the directory is also a repo in which case the repo can be cloned
-  again. Use with caution. To help mitigate this problem this first verifies
-  the node has been declared and the path exists.
+
+  WARNING: This is potentially destructive and cannot be undone, unless of course, the directory is also a repo in which case the repo can be cloned again. Use with caution. To help mitigate this problem this first verifies the node has been declared and the path exists.
+
   WARNING: All components within the node are also deleted.
+
   Parameters:
     1 = The node name.
     2 = An optional prompt for Confirm.
@@ -538,6 +556,7 @@ _macro := mk-child-nodes
 define _help
 ${_macro}
   This macro creates all of the node child nodes within an existing node.
+
   Parameters:
     1 = The name of the parent.
 endef
