@@ -54,20 +54,23 @@ Usage: make [<option>=<value> ...] [<goal>]
 
 This is the top level make file for ModFW.
 
-NOTE: ModFW is not a build system. Instead, ModFW is an integration tool. ModFW is intended to integrate a variety of build systems which are used to build both software and hardware components and projects.
+NOTE: ModFW is not a build tool. Instead, ModFW is an integration tool. ModFW is intended to integrate a variety of build tools which are used to build both software and hardware components to be integrated into a complete system.
 
 This make file and the included make segments define a framework for developing new projects or modifying existing projects. A project can consist of both software and hardware. All of the tools and existing components needed to build the project are automatically downloaded, configured, built, and installed when needed.
 
 Definitions:
+  context:
+    The directory from which ModFW is being run defines the context in which mods are build.
+
   deliverable:
-    A deliverable is the end result of a ModFW run. In make terminology a deliverable is an end goal or target. In ModFW a deliverable is a file which can be:
+    A deliverable is the end result of a ModFW run. In make terminology, a deliverable is an end goal or target. In ModFW a deliverable is a file which can be:
       - A software executable or library.
       - A file describing an object which can be manufactured using a 3D printer, CNC or other means.
       - A file describing a printed circuit board needed to manufacture and assemble the board.
       - A bill of materials (BOM) for off the shelf parts.
 
   project:
-    A ModFW project is the collection of one or more deliverables which serve a specific purpose. By default all components, intermediate files and deliverables are contained in the project directory tree. This allows different projects to use different versions of kits without worry of version conflicts. The disadvantage of this approach is the potential of having multiple copies of mods so one must be careful when editing mods to avoid mistakenly modifying a file in the wrong project.
+    A project is the collection of one or more deliverables which serve a specific purpose. By default all components, intermediate files and deliverables are contained in the project directory tree. This allows different projects to use different versions of kits without worry of version conflicts. The disadvantage of this approach is the potential of having multiple copies of mods so one must be careful when editing mods to avoid mistakenly modifying a file in the wrong project. Components from multiple projects within the ModFW directory tree can be integrated into a complete system. See prj definition for more information about projects.
 
   seg:
     Indicates the name of a makefile segment (included file). Changing the name of the file changes the name of the associated variables, macros, and goals.
@@ -230,11 +233,26 @@ Design patterns:
 Getting started:
 All that is needed to get started is a clone of this repository and then run make within the cloned directory. All of the necessary tools are automatically installed within the context of the project directory so that different projects can use different versions of tools without conflicts between versions.
 
-Before any actual mods can be built it is necessary to declare which project is active,
+Using an Existing Project:
+Before any actual mods can be built it is necessary to declare an active project. This is done by defining the PROJECT variable on the command line along with the URL to clone the project from.
 
 For example:
   make PROJECT=<project> <project>.URL=<url> all
     Will install the project repo and activate it.
+
+Creating a New Local Project:
+If creating a new project then the project repo can be created locally and the URL can be set to LOCAL_REPO.
+
+For example:
+  make PROJECT=<project> <project>.URL=LOCAL_REPO mk-project
+    Will create a new project repo locally and activate it.
+
+Creating and Using a New Remote Project:
+If creating a new project repo on a remote server then first create the empty repo on the server. Then create the local project repo and set the URL to the remote server repo.
+
+For example:
+  make PROJECT=<project> <project>.URL=<url> mk-project
+    Will create a new project repo locally and set the URL to the remote server repo.
 
 Command line options:
   Required sticky options:
@@ -242,6 +260,7 @@ Command line options:
 
   For automated builds it is possible to preset options in another directory then overriding STICKY_PATH either in overrides.mk or on the command line.
 
+See help-projects for more information about projects.
 
 Command line goals:
   all

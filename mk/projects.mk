@@ -420,7 +420,7 @@ define _help
 ${_macro}
   Declare and create a new project in the PROJECTS_DIR node using another project in the PROJECTS_DIR node as a template.
 
-  NOTE: This is designed to be callable from the make command line using the helper call-<macro> goal.
+  NOTE: This is designed to be callable from the make command line using the helper call-${_macro} goal.
   For example:
     make ${_macro}.PARMS=<prj>:<tmpl> call-${_macro}
 

@@ -176,6 +176,18 @@ help-${_macro} := $(call _help)
 $(call Add-Help,${_macro})
 ${_macro} = $(if $(wildcard ${$(1).path}/.git/HEAD),1)
 
+_macro := is-local-repo
+define _help
+${_macro}
+  This returns a non-empty value if a repo is local only.
+
+  Parameters:
+    1 = The name of a previously declared repo.
+endef
+help-${_macro} := $(call _help)
+$(call Add-Help,${_macro})
+${_macro} = $(if $(filter ${_u},${LOCAL_REPO}),1)
+
 _macro := is-modfw-repo
 define _help
 ${_macro}
@@ -1070,6 +1082,8 @@ ${_macro}
 
   If a repo makefile segment does not exist a new makefile segment is generated from a template and committed to the repo. After initialization the dev needs to customize the makefile segment for its intended use.
 
+  If the repo is not a local repo the origin is set to the URL specified in the makefile segment and an initial pull is done to synchronize the local repo with the remote repo. The remote repo must already exist.
+
   NOTE: Any existing files in the repo directory are automatically added to the repo.
 
   Parameters:
@@ -1104,10 +1118,16 @@ $(if $(call repo-is-declared,$(1)),
         $(if ${Run_Rc},
           $(call Signal-Error,Error when committing repo $(1) files.)
         ,
-          $(if $(call is-remote-repo,$(1)),
-            $(call set-repo-origin,$(1))
-          ,
+          $(if $(call is-local-repo,$(1)),
             $(call Attention,Repo $(1) is a local repo -- not setting origin.)
+          ,
+            $(if $(call remote-repo-exists,$(1)),
+              $(call set-repo-origin,$(1))
+              $(call Run,git pull --rebase origin ${$(1).repo_branch})
+            ,
+              $(call Signal-Error,\
+                Remote repo for $(1) does not exist -- not setting origin.)
+            )
           )
         )
       )
