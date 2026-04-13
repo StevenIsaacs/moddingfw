@@ -4,8 +4,8 @@ remove
 .venv
 *workspace
 testing
-ModFW.mm
-.modfw
+ModdingFW.mm
+.moddingfw
 overrides.mk
 projects
 kits
