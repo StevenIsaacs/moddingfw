@@ -11,9 +11,7 @@ Make segment: ${Seg}.mk
 
 This test suite verifies the macros related to managing ModdingFW kits.
 
-The focus is on managing a standard ModdingFW kit directory structure. To do
-so the variables PROJECTS_DIR, PROJECTS_PATH, and PROJECT are used. These
-should be defined either in config.mk or test-moddingfw.mk.
+The focus is on managing a standard ModdingFW kit directory structure. To do so the variables PROJECTS_DIR, PROJECTS_PATH, and PROJECT are used. These should be defined either in config.mk or test-moddingfw.mk.
 
 Command line goals:
   help-${Seg} or help-${SegUN} or help-${SegID}
@@ -46,10 +44,10 @@ $(call Add-Help,${_var})
 
 _macro := declare-kit-parents
 define _help
-  Declare the parents for a kit. The parent structure conforms to a normal
-  project structure where kits reside within projects. This basically declares
-  a test node to contain the kit testing nodes.
+  Declare the parents for a kit. The parent structure conforms to a normal project structure where kits reside within projects. This basically declares a test node to contain the kit testing nodes.
+
   None of the parent nodes should have been previously declared.
+
   If the preconditions for a kits test are not correct an error is emitted and
   the test exits.
 endef

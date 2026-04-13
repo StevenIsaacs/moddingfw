@@ -11,9 +11,7 @@ Make segment: ${Seg}.mk
 
 This test suite verifies the macros related to managing ModdingFW projects.
 
-The focus is on managing a standard ModdingFW project directory structure. To do
-so the variables PROJECTS_DIR, PROJECTS_PATH, and PROJECT are used. These
-should be defined either in config.mk or test-moddingfw.mk.
+The focus is on managing a standard ModdingFW project directory structure. To do so the variables PROJECTS_DIR, PROJECTS_PATH, and PROJECT are used. These should be defined either in config.mk or test-moddingfw.mk.
 
 Command line goals:
   help-${Seg} or help-${SegUN} or help-${SegID}
@@ -28,12 +26,9 @@ $(call Add-Help-Section,verifiers,Macros to verify project features.)
 
 _macro := declare-project-parents
 define _help
-  Declare the parents for a project. The parent structure conforms to a normal
-  project structure where projects reside within projects. This basically
-  declares a test node to contain the project testing nodes.
-  None of the parent nodes should have been previously declared.
-  If the preconditions for a projects test are not correct an error is emitted
-  and the test exits.
+  Declare the parents for a project. The parent structure conforms to a normal project structure where projects reside within projects. This basically declares a test node to contain the project testing nodes.
+
+  None of the parent nodes should have been previously declared. If the preconditions for a projects test are not correct an error is emitted and the test exits.
 endef
 help-${_macro} := $(call _help)
 $(call Add-Help,${_macro})

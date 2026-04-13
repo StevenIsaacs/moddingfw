@@ -11,13 +11,9 @@ Make segment: ${Seg}.mk
 
 This test suite verifies the macros related to managing ModdingFW mods.
 
-The focus is on managing a standard ModdingFW mod directory structure. To do
-so the variables PROJECTS_DIR, PROJECTS_PATH, and PROJECT are used. These
-should be defined either in config.mk or test-moddingfw.mk.
+The focus is on managing a standard ModdingFW mod directory structure. To do so the variables PROJECTS_DIR, PROJECTS_PATH, and PROJECT are used. These should be defined either in config.mk or test-moddingfw.mk.
 
-Unlike other test suites this suite uses another test suite, namely kit-tests.
-This is because mods are contained within kits which means a kit must be
-declared and possibly be created before mod tests can be run.
+Unlike other test suites this suite uses another test suite, namely kit-tests. This is because mods are contained within kits which means a kit must be declared and possibly be created before mod tests can be run.
 
 Command line goals:
   help-${Seg} or help-${SegUN} or help-${SegID}

@@ -11,9 +11,7 @@ $(call Enter-Segment,Test the ModdingFW features.)
 define _help
 Make segment: ${Seg}.mk
 
-This segment controls running tests to verify behavior of the various ModdingFW
-makefile segments. It should be invoked using the PREPEND command line variable
-described in makefile.
+This segment controls running tests to verify behavior of the various ModdingFW makefile segments. It should be invoked using the PREPEND command line variable described in makefile.
 
 The TESTING variable is set which disables normal makefile execution.
 

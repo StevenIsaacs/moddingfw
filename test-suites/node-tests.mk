@@ -100,9 +100,7 @@ endef
 _macro := verify-node-does-not-exist
 define _help
 ${_macro}
-  Verify a node does not exist meaning the node path is not a valid file system
-  path.
-  The node must have been previously declared.
+  Verify a node does not exist meaning the node path is not a valid file system path. The node must have been previously declared.
   Parameters:
     1 = The node to verify.
 endef
@@ -122,8 +120,7 @@ endef
 _macro := verify-is-root-node
 define _help
 ${_macro}
-  Verify a node is correctly structured as a root node. A root node has no
-  parent.
+  Verify a node is correctly structured as a root node. A root node has no parent.
   Parameters:
     1 = The node to verify.
 endef
@@ -143,8 +140,7 @@ endef
 _macro := verify-is-child-node
 define _help
 ${_macro}
-  Verify a node is correctly structured as a child node. A child node has a
-  parent.
+  Verify a node is correctly structured as a child node. A child node has a parent.
   Parameters:
     1 = The node to verify.
 endef
