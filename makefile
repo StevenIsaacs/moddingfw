@@ -10,9 +10,9 @@ HELPERS_BRANCH ?= main
 # Helper scripts and utilities.
 HELPERS_PATH ?= helpers
 ifeq (${HELPERS_BRANCH},main)
-  HELPERS_REPO := https://github.com/StevenIsaacs/modfw-helpers.git
+  HELPERS_REPO := https://github.com/StevenIsaacs/moddingfw-helpers.git
 else
-  HELPERS_REPO := git@github.com:StevenIsaacs/modfw-helpers.git
+  HELPERS_REPO := git@github.com:StevenIsaacs/moddingfw-helpers.git
 endif
 
 _helpers := ${HELPERS_PATH}/helpers.mk

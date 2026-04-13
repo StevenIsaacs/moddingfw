@@ -59,7 +59,7 @@ ScriptPath="$$( cd "$$( dirname "$${BASH_SOURCE[0]}" )" && pwd )"
 cleanup=error-exit
 
 # Load the common functions.
-. $$ScriptPath/modfw-functions.sh
+. $$ScriptPath/moddingfw-functions.sh
 
 # Load the configuration.
 . $$ScriptPath/options.conf
