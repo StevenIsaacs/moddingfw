@@ -1,19 +1,19 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# ModFW - mod test suite.
+# ModdingFW - mod test suite.
 #----------------------------------------------------------------------------
 # +++++
 $(call Last-Segment-UN)
 ifndef ${LastSegUN}.SegID
-$(call Enter-Segment,ModFW - mod test suite.)
+$(call Enter-Segment,ModdingFW - mod test suite.)
 # -----
 define _help
 Make segment: ${Seg}.mk
 
-This test suite verifies the macros related to managing ModFW mods.
+This test suite verifies the macros related to managing ModdingFW mods.
 
-The focus is on managing a standard ModFW mod directory structure. To do
+The focus is on managing a standard ModdingFW mod directory structure. To do
 so the variables PROJECTS_DIR, PROJECTS_PATH, and PROJECT are used. These
-should be defined either in config.mk or test-modfw.mk.
+should be defined either in config.mk or test-moddingfw.mk.
 
 Unlike other test suites this suite uses another test suite, namely kit-tests.
 This is because mods are contained within kits which means a kit must be
@@ -380,12 +380,12 @@ define ${.TestUN}
     $(call verify-mod-attributes,${_mod_ref},defined)
     $(call verify-mod-nodes,${_mod_ref})
 
-    $(eval _mfwf := $(call is-modfw-mod,${_mod_ref}))
-    $(call Test-Info,is-modfw-mod returned: ${_mfwf})
+    $(eval _mfwf := $(call is-moddingfw-mod,${_mod_ref}))
+    $(call Test-Info,is-moddingfw-mod returned: ${_mfwf})
     $(if ${_mfwf},
       $(call PASS,Mod ${_mod_ref} is expected format.)
     ,
-      $(call FAIL,Mod ${_mod_ref} does not conform to ModFW mod format.)
+      $(call FAIL,Mod ${_mod_ref} does not conform to ModdingFW mod format.)
     )
 
     $(call Mark-Step,Verifying mod can't be created more than once.)
@@ -467,10 +467,10 @@ define ${.TestUN}
     $(call verify-mod-attributes,${_new_mod_ref},defined)
     $(call verify-mod-nodes,${_new_mod_ref})
 
-    $(if $(call is-modfw-mod,${_new_mod_ref}),
+    $(if $(call is-moddingfw-mod,${_new_mod_ref}),
       $(call PASS,Mod ${_new_mod_ref} is expected format.)
     ,
-      $(call FAIL,Mod ${_new_mod_ref} does not conform to ModFW mod format.)
+      $(call FAIL,Mod ${_new_mod_ref} does not conform to ModdingFW mod format.)
     )
 
     $(call Mark-Step,Verifying cannot declare same mod.)

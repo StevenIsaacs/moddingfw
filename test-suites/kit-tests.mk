@@ -1,19 +1,19 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# ModFW - kit test suite.
+# ModdingFW - kit test suite.
 #----------------------------------------------------------------------------
 # +++++
 $(call Last-Segment-UN)
 ifndef ${LastSegUN}.SegID
-$(call Enter-Segment,ModFW - kit test suite.)
+$(call Enter-Segment,ModdingFW - kit test suite.)
 # -----
 define _help
 Make segment: ${Seg}.mk
 
-This test suite verifies the macros related to managing ModFW kits.
+This test suite verifies the macros related to managing ModdingFW kits.
 
-The focus is on managing a standard ModFW kit directory structure. To do
+The focus is on managing a standard ModdingFW kit directory structure. To do
 so the variables PROJECTS_DIR, PROJECTS_PATH, and PROJECT are used. These
-should be defined either in config.mk or test-modfw.mk.
+should be defined either in config.mk or test-moddingfw.mk.
 
 Command line goals:
   help-${Seg} or help-${SegUN} or help-${SegID}
@@ -371,7 +371,7 @@ endef
 help-${.TestUN} := $(call ${_help})
 $(call Add-Help,${.TestUN})
 ${.TestUN}.Prereqs := \
-  repo-tests.mk-modfw-repo \
+  repo-tests.mk-moddingfw-repo \
   ${.SuiteN}.declare-kit
 define ${.TestUN}
   $(call Enter-Macro,$(0))
@@ -395,10 +395,10 @@ define ${.TestUN}
 
     $(call display-kit,${_kit})
 
-    $(if $(call is-modfw-kit,${_kit}),
+    $(if $(call is-moddingfw-kit,${_kit}),
       $(call PASS,Kit ${_kit} is expected format.)
     ,
-      $(call FAIL,Kit ${_kit} does not conform to ModFW kit format.)
+      $(call FAIL,Kit ${_kit} does not conform to ModdingFW kit format.)
     )
 
     $(call verify-kit-attributes,${_kit},defined)
@@ -470,10 +470,10 @@ define ${.TestUN}
     $(call verify-kit-attributes,${_new_kit},defined)
     $(call verify-kit-nodes,${_new_kit})
 
-    $(if $(call is-modfw-kit,${_new_kit}),
+    $(if $(call is-moddingfw-kit,${_new_kit}),
       $(call PASS,Kit ${_new_kit} is expected format.)
     ,
-      $(call FAIL,Kit ${_new_kit} does not conform to ModFW kit format.)
+      $(call FAIL,Kit ${_new_kit} does not conform to ModdingFW kit format.)
     )
 
     $(call Mark-Step,\

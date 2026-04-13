@@ -1,17 +1,17 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Test the ModFW features.
+# Test the ModdingFW features.
 #----------------------------------------------------------------------------
 # The prefix $(call Last-Segment-Basename) must be unique for all files.
 # +++++
 $(call Last-Segment-UN)
 ifndef ${LastSegUN}.SegID
-$(call Enter-Segment,Test the ModFW features.)
+$(call Enter-Segment,Test the ModdingFW features.)
 # -----
 
 define _help
 Make segment: ${Seg}.mk
 
-This segment controls running tests to verify behavior of the various ModFW
+This segment controls running tests to verify behavior of the various ModdingFW
 makefile segments. It should be invoked using the PREPEND command line variable
 described in makefile.
 

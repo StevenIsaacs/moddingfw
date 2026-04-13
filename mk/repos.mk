@@ -1,10 +1,10 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Macros to support ModFW repos.
+# Macros to support ModdingFW repos.
 #----------------------------------------------------------------------------
 # +++++
 $(call Last-Segment-UN)
 ifndef ${LastSegUN}.SegID
-$(call Enter-Segment,Macros to support ModFW repos.)
+$(call Enter-Segment,Macros to support ModdingFW repos.)
 # -----
 
 $(call Use-Segment,nodes)
@@ -12,9 +12,9 @@ $(call Use-Segment,nodes)
 define _help
 Make segment: ${Seg}.mk
 
-This segment defines macros for managing ModFW repos. They are intended to be called only by the higher level macros (see help-projects, help-kits, and help-mods).
+This segment defines macros for managing ModdingFW repos. They are intended to be called only by the higher level macros (see help-projects, help-kits, and help-mods).
 
-A ModFW repo contains, at minimum, a makefile segment having the same name as the repo. The full path to this segment is available in the <repo>.seg_f attribute.
+A ModdingFW repo contains, at minimum, a makefile segment having the same name as the repo. The full path to this segment is available in the <repo>.seg_f attribute.
 
 Command line goals:
   help-${SegUN}   Display this help.
@@ -37,12 +37,12 @@ _var := repo_attributes
 ${_var} := seg_f seg_un repo_url repo_branch
 define _help
 ${_var}
-  A ModFW at minimum contains a makefile segment which is named using the repo node name.
+  A ModdingFW at minimum contains a makefile segment which is named using the repo node name.
 
   A repo extends a node with the following additional attributes:
 
   <repo>.seg_f
-    The path and file name of the makefile segment for the repo. NOTE: If this file exists then the repo is a ModFW repo.
+    The path and file name of the makefile segment for the repo. NOTE: If this file exists then the repo is a ModdingFW repo.
 
   <repo>.seg_un
     The unique name for the repo derived from <repo>.seg_f.
@@ -188,10 +188,10 @@ help-${_macro} := $(call _help)
 $(call Add-Help,${_macro})
 ${_macro} = $(if $(filter ${_u},${LOCAL_REPO}),1)
 
-_macro := is-modfw-repo
+_macro := is-moddingfw-repo
 define _help
 ${_macro}
-  This returns a non-empty value if a node contains a ModFW style repo.
+  This returns a non-empty value if a node contains a ModdingFW style repo.
 
   Parameters:
     1 = The name of a previously declared repo.
@@ -560,13 +560,13 @@ $(call Add-Help,${_macro})
 $(call Declare-Callable-Macro,${_macro})
 define ${_macro}
 $(call Enter-Macro,$(0),repo=$(1) file=$(2))
-$(if $(call is-modfw-repo,$(1)),
+$(if $(call is-moddingfw-repo,$(1)),
   $(call Run, \
     cd ${$(1).path} && \
     git add $(2) && git commit $(2) -m "Added file $(2)."
   )
 ,
-  $(call Signal-Error,Node $(1) is not a ModFW repo.)
+  $(call Signal-Error,Node $(1) is not a ModdingFW repo.)
 )
 $(call Exit-Macro)
 endef
@@ -1028,7 +1028,7 @@ endef
 _macro := mk-repo-from-template
 define _help
 ${_macro}
-  Use an existing ModFW repo as a template to create a new ModFW repo.
+  Use an existing ModdingFW repo as a template to create a new ModdingFW repo.
 
   The URL of the new repo is set to point to the template repo. The template repo is cloned to the new repo node and a new makefile segment is created using the origin repo segment as a template. The origin of the new repo is removed to avoid accidental commits to the template repo. The new makefile segment is then added and committed to the repo.
 
@@ -1047,7 +1047,7 @@ $(if $(call node-exists,$(1)),
   $(call Signal-Error,The repo node $(1) already exists -- not cloning.)
 ,
   $(if $(call repo-exists,$(2)),
-    $(if $(call is-modfw-repo,$(2)),
+    $(if $(call is-moddingfw-repo,$(2)),
       $(eval $(1).repo_url := ${$(2).path})
       $(call clone-repo,$(1))
       $(call Run,git -C ${$(1).path} remote remove origin)
@@ -1066,7 +1066,7 @@ $(if $(call node-exists,$(1)),
         )
       )
     ,
-      $(call Signal-Error,Template node $(2) is not a ModFW repo.)
+      $(call Signal-Error,Template node $(2) is not a ModdingFW repo.)
     )
   ,
     $(call Signal-Error,Template node $(2) is not a repo.)
@@ -1075,7 +1075,7 @@ $(if $(call node-exists,$(1)),
 $(call Exit-Macro)
 endef
 
-_macro := init-modfw-repo
+_macro := init-moddingfw-repo
 define _help
 ${_macro}
   Use git to initialize a new repo.
@@ -1094,8 +1094,8 @@ $(call Add-Help,${_macro})
 define ${_macro}
 $(call Enter-Macro,$(0),repo=$(1))
 $(if $(call repo-is-declared,$(1)),
-  $(if $(call is-modfw-repo,$(1)),
-    $(call Info,The node $(1) is already a ModFW repo -- no init.)
+  $(if $(call is-moddingfw-repo,$(1)),
+    $(call Info,The node $(1) is already a ModdingFW repo -- no init.)
   ,
     $(if $(call repo-exists,$(1)),
       $(call Info,Node $(1) is already a repo.)
@@ -1139,7 +1139,7 @@ $(if $(call repo-is-declared,$(1)),
 $(call Exit-Macro)
 endef
 
-_macro := mk-modfw-repo
+_macro := mk-moddingfw-repo
 define _help
 ${_macro}
   Create a new local repo in a previously created node.
@@ -1159,7 +1159,7 @@ $(if $(call repo-is-declared,$(1)),
       $(call Signal-Error,Repo $(1) already exists.)
     ,
       $(call Info,Creating repo $(1).)
-      $(call init-modfw-repo,$(1))
+      $(call init-moddingfw-repo,$(1))
     )
   ,
     $(call Signal-Error,The node for repo $(1) does not exist.)

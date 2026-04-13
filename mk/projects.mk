@@ -12,7 +12,7 @@ $(call Use-Segment,mods)
 define _help
 Make segment: ${Seg}.mk
 
-A ModFW project is mostly intended to contain variable definitions needed to configure mod builds and to create project specific packages using the output of mod builds. Each project is maintained in a separate git repo.
+A ModdingFW project is mostly intended to contain variable definitions needed to configure mod builds and to create project specific packages using the output of mod builds. Each project is maintained in a separate git repo.
 
 Although several projects can exist side by side only one can be active at onetime. The active project is indicated by the value of the PROJECT variable. Kits are installed (cloned into) the project directory making it possible for different projects to use different versions of the same kits and mods. Kit versions and dependencies are typically specified in the project makefile segment. Kit repos are switched to the project specified branches when the project is activated.
 
@@ -20,13 +20,13 @@ Once a project is activated, branches are no longer automatically switched but c
 
 It is possible for projects to be dependent upon the output of other projects. However, it is recommended this be avoided because of introducing the risk of confusion resulting from different kit versions (branches).
 
-This segment uses repo macros in repos.mk help manage ModFW projects. Each project is contained in a separate repo. the install-repo macro is used to install the active project if it doesn't yet exist in the projects directory.
+This segment uses repo macros in repos.mk help manage ModdingFW projects. Each project is contained in a separate repo. the install-repo macro is used to install the active project if it doesn't yet exist in the projects directory.
 
 Projects are intended to be self contained. All kits, mods, and tools needed by the project are installed within the project directory tree. This simplifies removal of a project and helps avoid accumulation of files which are no longer relevant and helps avoid conflicts between projects which use different versions of kits or tools.
 
 Sticky variables are stored in the project subdirectory thus allowing each project to have unique values for sticky variables. This segment (${Seg}) changes STICKY_PATH to point to the project specific sticky variables which are also maintained in the repo.
 
-New projects can be created using the mk-modfw-repo or mk-repo-from-template macros. When a project repo is created, a project makefile segment is generated and stored in the project subdirectory. The developer modifies this file as needed.
+New projects can be created using the mk-moddingfw-repo or mk-repo-from-template macros. When a project repo is created, a project makefile segment is generated and stored in the project subdirectory. The developer modifies this file as needed.
 
 The project makefile segment is typically used to override kit and mod variables and to use specific mods. Project specific variables, goals and recipes can also be added. This is also used to define the repos and branches for the various kits used in the project. See help-repos for more information.
 
@@ -80,9 +80,9 @@ _var := project_node_names
 ${_var} := PROJECT_STICKY_DIR INC_DIR ${project_ignored_nodes}
 define _help
 ${_var}
-  A project is intended to be self contained meaning all components used to build a project are contained within the project directory making each of the ModFW defined directories child nodes of the project node. This serves to help avoid conflicts where different projects use different versions of the same component. A project is expected to define these attributes and has the option to make them sticky.
+  A project is intended to be self contained meaning all components used to build a project are contained within the project directory making each of the ModdingFW defined directories child nodes of the project node. This serves to help avoid conflicts where different projects use different versions of the same component. A project is expected to define these attributes and has the option to make them sticky.
 
-  See help-modfw_structure for more information.
+  See help-moddingfw_structure for more information.
 
 Project node names:
 $(foreach _node,${project_node_names},
@@ -97,7 +97,7 @@ ${_var} := \
   goals
 define _help
 ${_var}
-  A project is a ModFW repo and extends a repo with the additional attributes.
+  A project is a ModdingFW repo and extends a repo with the additional attributes.
 
   Additional attributes:
   $${PROJECT}.goals
@@ -116,7 +116,7 @@ ${_var}
 
   Each tool can provide executables, include files, and libraries. The location of these is defined by the project. A mod can add to this structure as needed.
 
-  See help-modfw_structure for more information.
+  See help-moddingfw_structure for more information.
 
 Project node names:
 $(foreach _node,${tool_node_names},
@@ -140,21 +140,21 @@ ${_macro} = $(if $(filter $(1),${projects}),1)
 _macro := project-exists
 define _help
 ${_macro}
-  This returns a non-empty value if a node contains a ModFW repo.
+  This returns a non-empty value if a node contains a ModdingFW repo.
 
   Parameters:
     1 = The name of a previously declared project.
 endef
 help-${_macro} := $(call _help)
 $(call Add-Help,${_macro})
-${_macro} = $(call is-modfw-repo,$(1))
+${_macro} = $(call is-moddingfw-repo,$(1))
 
-_macro := is-modfw-project
+_macro := is-moddingfw-project
 define _help
 ${_macro}
-  Returns a non-empty value if the project conforms to the ModFW pattern.
+  Returns a non-empty value if the project conforms to the ModdingFW pattern.
 
-  A ModFW project will always have a makefile segment having the same name as the project and the repo.
+  A ModdingFW project will always have a makefile segment having the same name as the project and the repo.
 
   The project is contained in a node of the same name. The makefile segment file will contain the same name to indicate it is customized for the project.
 
@@ -166,21 +166,21 @@ $(call Add-Help,${_macro})
 define ${_macro}
 $(strip
   $(call Enter-Macro,$(0),project=$(1))
-  $(if $(call is-modfw-repo,$(1)),
+  $(if $(call is-moddingfw-repo,$(1)),
     $(call Verbose,Checking segment:${$(1).seg_f})
     $(call Run,grep $(1) ${$(1).seg_f},quiet)
     $(if ${Run_Rc},
       $(call Verbose,grep returned:${Run_Rc})
     ,
       $(if $(wildcard ${$(1).path}/.gitignore),
-        $(call Verbose,$(1) is a valid ModFW project.)
+        $(call Verbose,$(1) is a valid ModdingFW project.)
         1
       ,
         $(call Verbose,${(1).path}/.gitignore does not exist.)
       )
     )
   ,
-    $(call Verbose,$(1) is not a ModFW repo.)
+    $(call Verbose,$(1) is not a ModdingFW repo.)
   )
   $(call Exit-Macro)
 )
@@ -403,7 +403,7 @@ define ${_macro}
       $(call Signal-Error,Project $(1) node already exists.)
     ,
       $(call mk-node,$(1))
-      $(call mk-modfw-repo,$(1))
+      $(call mk-moddingfw-repo,$(1))
       $(if ${Errors},
         $(call Warn,An error occurred -- not generating .gitignore file.)
       ,
@@ -448,7 +448,7 @@ define ${_macro}
     ,
       $(call declare-child-node,$(2),${PROJECTS_DIR})
       $(call declare-repo,$(2))
-      $(if $(call is-modfw-repo,$(2)),
+      $(if $(call is-moddingfw-repo,$(2)),
         $(call mk-repo-from-template,$(1),$(2))
       ,
         $(call Signal-Error,Template project $(2) does not exist.)
@@ -529,8 +529,8 @@ $(if ${Errors},
     $(call install-repo,$(1))
     $(if ${Errors},
     ,
-      $(if $(call is-modfw-repo,$(1)),
-        $(call Verbose,Project $(1) is a ModFW repo.)
+      $(if $(call is-moddingfw-repo,$(1)),
+        $(call Verbose,Project $(1) is a ModdingFW repo.)
       ,
         $(if $(and \
             $(wildcard ${$(1).path}/$(1).mk),\
@@ -538,7 +538,7 @@ $(if ${Errors},
           $(call switch-branch,$(1))
         ,
           $(call Attention,\
-            Initializing project $(1) from bare or non-ModFW repo.)
+            Initializing project $(1) from bare or non-ModdingFW repo.)
           $(call mk-branch,$(1))
           $(call Gen-Segment-File,\
             $(1),${$(1).seg_f},<edit this description for repo>:$(1))

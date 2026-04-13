@@ -1,10 +1,10 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Manage multiple ModFW kits using git, branches, and tags.
+# Manage multiple ModdingFW kits using git, branches, and tags.
 #----------------------------------------------------------------------------
 # +++++
 $(call Last-Segment-UN)
 ifndef ${LastSegUN}.SegID
-$(call Enter-Segment,Manage multiple ModFW kits using git, branches, and tags.)
+$(call Enter-Segment,Manage multiple ModdingFW kits using git, branches, and tags.)
 # -----
 
 $(call Use-Segment,repos)
@@ -81,7 +81,7 @@ _var := kit_attributes
 ${_var} := goals mods_path build_path staging_path
 define _help
 ${_var}
-  A kit is a ModFW repo and extends a repo with the additional attributes.
+  A kit is a ModdingFW repo and extends a repo with the additional attributes.
 
   Attributes:
   <kit>.goals
@@ -115,13 +115,13 @@ ${_macro} = $(if $(filter $(1),${kits}),1)
 _macro := kit-exists
 define _help
 ${_macro}
-  This returns a non-empty value if a kit node contains a ModFW repo.
+  This returns a non-empty value if a kit node contains a ModdingFW repo.
   Parameters:
     1 = The name of a previously declared kit.
 endef
 help-${_macro} := $(call _help)
 $(call Add-Help,${_macro})
-${_macro} = $(call is-modfw-repo,$(1))
+${_macro} = $(call is-moddingfw-repo,$(1))
 
 _macro := kit-has-declared-mods
 define _help
@@ -134,10 +134,10 @@ help-${_macro} := $(call _help)
 $(call Add-Help,${_macro})
 ${_macro} = $(if ${$(1).mods},1)
 
-_macro := is-modfw-kit
+_macro := is-moddingfw-kit
 define _help
 ${_macro}
-  Returns a non-empty value if the kit conforms to the ModFW pattern. A ModFW kit will always have a makefile segment having the same name as the kit and the repo.
+  Returns a non-empty value if the kit conforms to the ModdingFW pattern. A ModdingFW kit will always have a makefile segment having the same name as the kit and the repo.
   The kit is contained in a node of the same name. The makefile segment file will contain the same name to indicate it is customized for the kit.
   Parameters:
     1 = The name of an existing and previously declared kit.
@@ -147,20 +147,20 @@ $(call Add-Help,${_macro})
 define ${_macro}
 $(strip
   $(call Enter-Macro,$(0),kit=$(1))
-  $(if $(call is-modfw-repo,$(1)),
+  $(if $(call is-moddingfw-repo,$(1)),
     $(call Run,grep $(1) ${$(1).seg_f},quiet)
     $(if ${Run_Rc},
       $(call Verbose,grep returned:${Run_Rc})
     ,
       $(if $(wildcard ${$(1).path}/.gitignore),
-        $(call Verbose,$(1) is a valid ModFW kit.)
+        $(call Verbose,$(1) is a valid ModdingFW kit.)
         1
       ,
         $(call Verbose,${(1).path}/.gitignore does not exist.)
       )
     )
   ,
-    $(call Verbose,$(1) is not a ModFW repo.)
+    $(call Verbose,$(1) is not a ModdingFW repo.)
   )
   $(call Exit-Macro)
 )
@@ -392,7 +392,7 @@ $(if ${Errors},
     $(call Signal-Error,Kit $(1) node already exists.)
   ,
     $(call mk-node,$(1))
-    $(call mk-modfw-repo,$(1))
+    $(call mk-moddingfw-repo,$(1))
     $(if ${Errors},
       $(call Warn,An error occurred -- not generating .gitignore file.)
     ,
@@ -433,7 +433,7 @@ $(if ${Errors},
     $(call undeclare-kit,$(1))
   ,
     $(call declare-kit,$(2))
-    $(if $(call is-modfw-repo,$(2)),
+    $(if $(call is-moddingfw-repo,$(2)),
       $(call mk-repo-from-template,$(1),$(2))
     ,
       $(call Signal-Error,Template kit $(2) does not exist.)
@@ -503,15 +503,15 @@ $(if ${Errors},
     $(call install-repo,$(1))
     $(if ${Errors},
     ,
-      $(if $(call is-modfw-repo,$(1)),
-        $(call Verbose,Kit $(1) is a ModFW repo.)
+      $(if $(call is-moddingfw-repo,$(1)),
+        $(call Verbose,Kit $(1) is a ModdingFW repo.)
       ,
         $(if $(and \
             $(wildcard ${$(1).path}/$(1).mk),\
             $(wildcard ${$(1).path}/.gitignore)),
           $(call switch-branch,$(1))
         ,
-          $(call Attention,Initializing kit $(1) from bare or non-ModFW repo.)
+          $(call Attention,Initializing kit $(1) from bare or non-ModdingFW repo.)
           $(call mk-branch,$(1))
           $(call Gen-Segment-File,\
             $(1),${$(1).seg_f},<edit this description for repo>:$(1))

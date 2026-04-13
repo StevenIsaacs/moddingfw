@@ -1,10 +1,10 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# ModFW config variables.
+# ModdingFW config variables.
 #----------------------------------------------------------------------------
 # +++++
 $(call Last-Segment-UN)
 ifndef ${LastSegUN}.SegID
-$(call Enter-Segment,ModFW config variables.)
+$(call Enter-Segment,ModdingFW config variables.)
 $(call Display-Segs)
 $(call Display-Seg-Attributes,${SegUN})
 
@@ -33,7 +33,7 @@ _var := MK_DIR
 $(call Sticky,${_var},mk)
 define _help
 ${_var} = ${${_var}}
-  The name of the directory containing the ModFW makefile segments.
+  The name of the directory containing the ModdingFW makefile segments.
 endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})
@@ -49,11 +49,11 @@ help-${_var} := $(call _help)
 $(call Add-Help,${_var})
 
 _var := PROJECTS_PATH
-$(call Sticky,${_var},${ModFW_path})
+$(call Sticky,${_var},${ModdingFW_path})
 define _help
 ${_var} = ${${_var}}
-  The path to the root node which will contain project nodes. This can be used to avoid polluting the ModFW directory itself.
-  However, this defaults to the path to ModFW itself as defined by ModFW_path. Use this to change the location where projects are installed.
+  The path to the root node which will contain project nodes. This can be used to avoid polluting the ModdingFW directory itself.
+  However, this defaults to the path to ModdingFW itself as defined by ModdingFW_path. Use this to change the location where projects are installed.
 endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})
@@ -262,11 +262,11 @@ endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})
 
-$(call Add-Help-Section,structure,ModFW node and directory structure.)
-_h := modfw_structure
+$(call Add-Help-Section,structure,ModdingFW node and directory structure.)
+_h := moddingfw_structure
 define _help
 ${_h}
-  In a ModFW run only one project can be built at a time. The PROJECT variable indicates which project is being built. This project is the active project.
+  In a ModdingFW run only one project can be built at a time. The PROJECT variable indicates which project is being built. This project is the active project.
 
   The active project is the top level or focus. The project then "uses" one or more mods. Mods can then "use" additional mods and even mods from other
   kits to build components they may be dependent upon. Dependency trees should always begin with the active project.
@@ -278,10 +278,10 @@ ${_h}
   directory structure. This helps avoid version conflicts between projects which use the same but different versions of kits or tools. This also helps
   avoid situations where removing a project breaks the build of another project or results in orphaned build artifacts.
 
-  ModFW is a repo containing the ModFW components needed to build projects or test ModFW. The directory containing the ModFW repo is the root node. All
-  other nodes are children of the ModFW root node.
+  ModdingFW is a repo containing the ModdingFW components needed to build projects or test ModdingFW. The directory containing the ModdingFW repo is the root node. All
+  other nodes are children of the ModdingFW root node.
 
-  == ModFW Node Structure ==
+  == ModdingFW Node Structure ==
 
   This is the structure of the declared nodes. Typically, the resulting directory structure matches the node structure but it is possible to
   change the location of a particular node. See help-nodes for more information. A typical case for this is to use the variable PROJECTS_DIR
@@ -296,19 +296,19 @@ ${_h}
   <a>   Indicates a node or file name defined by a variable.
   $${X} Indicates a sticky variable which can be overridden on the command line.
 
-  +-ModFW_node (repo) # All other nodes are children of this node.
+  +-ModdingFW_node (repo) # All other nodes are children of this node.
     --.git
       Files managed by git.
-    --.modfw
-      Hidden directory where ModFW specific config and temporary files are stored.
+    --.moddingfw
+      Hidden directory where ModdingFW specific config and temporary files are stored.
     | .gitignore # Ignores STICKY_DIR, DOWNLOADS_DIR and, PROJECTS_DIR.
     | makefile (The top level makefile.)
     >-$${MK_DIR} = ${MK_DIR}
-      ModFW makefile segments.
+      ModdingFW makefile segments.
     >-$${TESTS_DIR} = ${TESTS_DIR}
-      ModFW makefile segments for testing ModFW.
+      ModdingFW makefile segments for testing ModdingFW.
 
-    The following are not part of the ModFW repo.
+    The following are not part of the ModdingFW repo.
 
     --$${STICKY_DIR} = ${STICKY_DIR}
       Top level sticky variable save files. Ths location of this node is defined by $${STICKY_PATH} which is defined by the helpers (see help-helpers).

@@ -4,7 +4,7 @@
 # +++++
 $(call Last-Segment-UN)
 ifndef ${LastSegUN}.SegID
-$(call Enter-Segment,ModFW Mods.)
+$(call Enter-Segment,ModdingFW Mods.)
 # -----
 
 $(call Use-Segment,kits)
@@ -86,7 +86,7 @@ define _help
 ${_var}
   A mod is always contained within a kit which contains a number of mods.
 
-  A kit also defines context for the mods within a kit. See help-modfw_structure for
+  A kit also defines context for the mods within a kit. See help-moddingfw_structure for
   more information.
 
 endef
@@ -229,12 +229,12 @@ help-${_macro} := $(call _help)
 $(call Add-Help,${_macro})
 ${_macro} = $(call node-exists,$(1))
 
-_macro := is-modfw-mod
+_macro := is-moddingfw-mod
 define _help
 ${_macro}
-  Returns a non-empty value if the mod conforms to the ModFW pattern.
+  Returns a non-empty value if the mod conforms to the ModdingFW pattern.
 
-  A ModFW mod will always have a makefile segment having the same name as the mod and the repo. The mod is contained in a node of the same name. The makefile segment file
+  A ModdingFW mod will always have a makefile segment having the same name as the mod and the repo. The mod is contained in a node of the same name. The makefile segment file
   will contain the same name to indicate it is customized for the mod.
 
   Parameters:
@@ -626,7 +626,7 @@ $(if ${Errors},
   $(if ${Errors},
     $(call Attention,An error occurred when installing kit ${$(1).kit})
   ,
-    $(if $(call is-modfw-kit,${$(1).kit}),
+    $(if $(call is-moddingfw-kit,${$(1).kit}),
       $(if $(call node-exists,$(1)),
         $(call Signal-Error,A node $(1) already exists.)
       ,
@@ -638,7 +638,7 @@ $(if ${Errors},
         $(call add-file-to-repo,${$(1).kit},${$(1).path}/.gitignore)
       )
     ,
-      $(call Signal-Error,Kit ${_k} is not a ModFW style repo.)
+      $(call Signal-Error,Kit ${_k} is not a ModdingFW style repo.)
     )
   )
 )
@@ -732,9 +732,9 @@ $(if ${Errors},
   $(call use-kit,${$(1).kit})
   $(if ${Errors},
   ,
-    $(if $(call is-modfw-kit,${$(1).kit}),
+    $(if $(call is-moddingfw-kit,${$(1).kit}),
       $(call Info,Using mod ${$(1).mod} from kit ${$(1).kit}.)
-      $(if $(call is-modfw-mod,$(1)),
+      $(if $(call is-moddingfw-mod,$(1)),
         $(foreach _node,${mod_node_names},
           $(if $(call node-exists,$(1).${${_node}}),
             $(call Info,Using existing node $(1).${${_node}})
@@ -745,10 +745,10 @@ $(if ${Errors},
         $(eval this_mod := $(1))
         $(call Use-Segment,${$(1).seg_f})
       ,
-        $(call Signal-Error,Mod $(1) is not a ModFW style mod.)
+        $(call Signal-Error,Mod $(1) is not a ModdingFW style mod.)
       )
     ,
-      $(call Signal-Error,Kit ${_k} is not a ModFW style kit.)
+      $(call Signal-Error,Kit ${_k} is not a ModdingFW style kit.)
     )
   )
 )

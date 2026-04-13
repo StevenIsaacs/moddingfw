@@ -1,19 +1,19 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# ModFW - project test suite.
+# ModdingFW - project test suite.
 #----------------------------------------------------------------------------
 # +++++
 $(call Last-Segment-UN)
 ifndef ${LastSegUN}.SegID
-$(call Enter-Segment,ModFW - project test suite.)
+$(call Enter-Segment,ModdingFW - project test suite.)
 # -----
 define _help
 Make segment: ${Seg}.mk
 
-This test suite verifies the macros related to managing ModFW projects.
+This test suite verifies the macros related to managing ModdingFW projects.
 
-The focus is on managing a standard ModFW project directory structure. To do
+The focus is on managing a standard ModdingFW project directory structure. To do
 so the variables PROJECTS_DIR, PROJECTS_PATH, and PROJECT are used. These
-should be defined either in config.mk or test-modfw.mk.
+should be defined either in config.mk or test-moddingfw.mk.
 
 Command line goals:
   help-${Seg} or help-${SegUN} or help-${SegID}
@@ -313,7 +313,7 @@ endef
 help-${.TestUN} := $(call ${_help})
 $(call Add-Help,${.TestUN})
 ${.TestUN}.Prereqs := \
-  repo-tests.mk-modfw-repo \
+  repo-tests.mk-moddingfw-repo \
   ${.SuiteN}.declare-project
 define ${.TestUN}
   $(call Enter-Macro,$(0))
@@ -337,10 +337,10 @@ define ${.TestUN}
 
     $(call display-project,${_project})
 
-    $(if $(call is-modfw-project,${_project}),
+    $(if $(call is-moddingfw-project,${_project}),
       $(call PASS,Project ${_project} is expected format.)
     ,
-      $(call FAIL,Project ${_project} does not conform to ModFW project format.)
+      $(call FAIL,Project ${_project} does not conform to ModdingFW project format.)
     )
 
     $(call verify-project-attributes,${_project},defined)
@@ -414,10 +414,10 @@ define ${.TestUN}
     $(call verify-project-attributes,${_new_project},defined)
     $(call verify-project-nodes,${_new_project})
 
-    $(if $(call is-modfw-project,${_new_project}),
+    $(if $(call is-moddingfw-project,${_new_project}),
       $(call PASS,Project ${_new_project} is expected format.)
     ,
-      $(call FAIL,Project ${_new_project} does not conform to ModFW project format.)
+      $(call FAIL,Project ${_new_project} does not conform to ModdingFW project format.)
     )
 
     $(call Mark-Step,\

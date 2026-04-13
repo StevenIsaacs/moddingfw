@@ -427,7 +427,7 @@ Command line goals:
   install-os-image      Install the OS image file onto a USB flash card to
                         make the card bootable on the target device. This
                         uses the helper script makebootable. The makebootable
-                        options are saved in ~/.modfw/makebootable. The
+                        options are saved in ~/.moddingfw/makebootable. The
                         boot device defaults to a device scan or the previous
                         device. Use BOOT_DEV on the command line to specify
                         which device to install the OS image to.

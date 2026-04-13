@@ -1,6 +1,6 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# ModFW - A framework for modifying and developing devices.
-# NOTE: ModFW is not a build tool. Rather it is a framework for integrating
+# ModdingFW - A framework for modifying and developing devices.
+# NOTE: ModdingFW is not a build tool. Rather it is a framework for integrating
 # a variety of build and development tools.
 #----------------------------------------------------------------------------
 # Which branch of the helpers to use. Once the helpers have been cloned
@@ -30,10 +30,10 @@ _null := $(shell \
 )
 
 # Helper macros.
-MakeD := ModFW -- A modding framework.
+MakeD := ModdingFW -- A modding framework.
 include ${_helpers}
 
-# ModFW always has a log file.
+# ModdingFW always has a log file.
 LOG_FILE := ${WorkingDir}.log
 $(call Enable-Log-File)
 
@@ -52,25 +52,25 @@ define _help
 Makefile: ${Seg}
 Usage: make [<option>=<value> ...] [<goal>]
 
-This is the top level make file for ModFW.
+This is the top level make file for ModdingFW.
 
-NOTE: ModFW is not a build tool. Instead, ModFW is an integration tool. ModFW is intended to integrate a variety of build tools which are used to build both software and hardware components to be integrated into a complete system.
+NOTE: ModdingFW is not a build tool. Instead, ModdingFW is an integration tool. ModdingFW is intended to integrate a variety of build tools which are used to build both software and hardware components to be integrated into a complete system.
 
 This make file and the included make segments define a framework for developing new projects or modifying existing projects. A project can consist of both software and hardware. All of the tools and existing components needed to build the project are automatically downloaded, configured, built, and installed when needed.
 
 Definitions:
   context:
-    The directory from which ModFW is being run defines the context in which mods are build.
+    The directory from which ModdingFW is being run defines the context in which mods are build.
 
   deliverable:
-    A deliverable is the end result of a ModFW run. In make terminology, a deliverable is an end goal or target. In ModFW a deliverable is a file which can be:
+    A deliverable is the end result of a ModdingFW run. In make terminology, a deliverable is an end goal or target. In ModdingFW a deliverable is a file which can be:
       - A software executable or library.
       - A file describing an object which can be manufactured using a 3D printer, CNC or other means.
       - A file describing a printed circuit board needed to manufacture and assemble the board.
       - A bill of materials (BOM) for off the shelf parts.
 
   project:
-    A project is the collection of one or more deliverables which serve a specific purpose. By default all components, intermediate files and deliverables are contained in the project directory tree. This allows different projects to use different versions of kits without worry of version conflicts. The disadvantage of this approach is the potential of having multiple copies of mods so one must be careful when editing mods to avoid mistakenly modifying a file in the wrong project. Components from multiple projects within the ModFW directory tree can be integrated into a complete system. See prj definition for more information about projects.
+    A project is the collection of one or more deliverables which serve a specific purpose. By default all components, intermediate files and deliverables are contained in the project directory tree. This allows different projects to use different versions of kits without worry of version conflicts. The disadvantage of this approach is the potential of having multiple copies of mods so one must be careful when editing mods to avoid mistakenly modifying a file in the wrong project. Components from multiple projects within the ModdingFW directory tree can be integrated into a complete system. See prj definition for more information about projects.
 
   seg:
     Indicates the name of a makefile segment (included file). Changing the name of the file changes the name of the associated variables, macros, and goals.
@@ -79,16 +79,16 @@ Definitions:
     The collection of files for a given deliverable is termed a mod. Semantically, a mod is a modification of an existing deliverable or a mod can be the development a new deliverable. A mod can be dependent upon the goals of other mods. See help-mods for more information.
 
   kit:
-    A kit is a collection of mods. Each kit is a separate git repository and is cloned from the remote repository when needed. New kits can be created locally. All kits used in a ModFW run must have unique names. See help-kits for more information.
+    A kit is a collection of mods. Each kit is a separate git repository and is cloned from the remote repository when needed. New kits can be created locally. All kits used in a ModdingFW run must have unique names. See help-kits for more information.
 
   prj:
     Defines the mods comprising a project. This can be as simple as a single makefile segment but can include project documentation as well as goals for packaging the project deliverables. A project is maintained as a separate git repository. Similar to a kit, a project is automatically cloned when needed or can be created locally. The makefile segment for the project should define the kit repo URLs and branches. One project can be the "active" project. Sticky variables are stored in the active project directory. See  help-helpers for more information about sticky variables. The active project is specified using the PROJECT variable. See help-projects for more information.
 
   comp:
-    A ModFW component. A component can be a mod, kit, or project. All ModFW components contain at minimum a makefile segment having the same name.
+    A ModdingFW component. A component can be a mod, kit, or project. All ModdingFW components contain at minimum a makefile segment having the same name.
 
   node:
-    A data structure which describes a ModFW related directory. Nodes are organized into a tree structure. See help-nodes for more information.
+    A data structure which describes a ModdingFW related directory. Nodes are organized into a tree structure. See help-nodes for more information.
 
   repo:
     A node which is also a clone of a git repository.
@@ -153,7 +153,7 @@ An overrides file, overrides.mk, is supported where the developer can preset var
 Additional project, kit and mod specific overrides can be declared and maintained in a project repository. Unlike overrides.mk the helpers will be available to the project overrides. See help-projects for more information.
 
 Makefile processing:
-ModFW divides makefile processing into two distinct phases; pre-process and execute.
+ModdingFW divides makefile processing into two distinct phases; pre-process and execute.
 
 During the pre-process phase nearly all macros are executed and makefile segments are loaded. Any repos that are referenced are cloned or setup during this phase. Because of this, variables should be declared using the := form. New components (project, kit, or mod) are created during this phase.
 
@@ -182,7 +182,7 @@ PRX = The proxy hosted in the cloud.
 GW  = Gateway (protocol translation) between the CTL and the system.
 CTL = The device controller.
 
-ModFW directly supports the following design patterns. If necessary mods can either change the patterns or define new ones.
+ModdingFW directly supports the following design patterns. If necessary mods can either change the patterns or define new ones.
 
 Design patterns:
 
@@ -298,22 +298,22 @@ endef
 help-${SegID} := $(call _help)
 $(call Add-Help,${SegID})
 
-$(call Add-Help-Section,root_node,ModFW root node.)
+$(call Add-Help-Section,root_node,ModdingFW root node.)
 
-_var := ModFW_path
+_var := ModdingFW_path
 ${_var} := ${WorkingPath}/../
 define _help
 ${_var} := ${${_var}}
-  This is the path to the directory containing the ModFW directory. This is used as the path to the root node for the ModFW node tree.
+  This is the path to the directory containing the ModdingFW directory. This is used as the path to the root node for the ModdingFW node tree.
 endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})
 
-_var := ModFW_node
+_var := ModdingFW_node
 ${_var} := ${WorkingDir}
 define _help
 ${_var} := ${${_var}}
-  This is the name of the ModFW directory and is equal to the helper variable WorkingDir. This is used to name the root node for the ModFW node tree.
+  This is the name of the ModdingFW directory and is equal to the helper variable WorkingDir. This is used to name the root node for the ModdingFW node tree.
 endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})
@@ -373,10 +373,10 @@ ifeq (${TESTING},)
   help-${_var} := $(call _help)
   $(call Add-Help,${_var})
 
-_macro := init-modfw
+_macro := init-moddingfw
 define _help
 ${_macro}
-  Initialize the ModFW makefiles. Among other things this declares the project root node and its top level children.
+  Initialize the ModdingFW makefiles. Among other things this declares the project root node and its top level children.
 
   NOTE: This is a macro because of an idiosyncrasy in the make parser causing problems when creating nodes.
 endef
@@ -387,10 +387,10 @@ define ${_macro}
 
   $(call Use-Segment,projects)
 
-  $(call declare-root-node,${ModFW_node},${ModFW_path})
+  $(call declare-root-node,${ModdingFW_node},${ModdingFW_path})
 
   $(foreach _child,STICKY MK DOWNLOADS PROJECTS,
-    $(call declare-child-node,${${_child}_DIR},${ModFW_node})
+    $(call declare-child-node,${${_child}_DIR},${ModdingFW_node})
     $(call mk-node,${${_child}})
   )
 
@@ -398,7 +398,7 @@ define ${_macro}
 endef
 
 
-  $(call init-modfw)
+  $(call init-moddingfw)
   ifeq (${PROJECT},)
     $(call Signal-Error,PROJECT must be defined.)
   else

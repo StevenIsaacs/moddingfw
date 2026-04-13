@@ -1,10 +1,10 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# ModFW - node test suite.
+# ModdingFW - node test suite.
 #----------------------------------------------------------------------------
 # +++++
 $(call Last-Segment-UN)
 ifndef ${LastSegUN}.SegID
-$(call Enter-Segment,ModFW - node test suite.)
+$(call Enter-Segment,ModdingFW - node test suite.)
 # -----
 define _help
 Make segment: ${Seg}.mk

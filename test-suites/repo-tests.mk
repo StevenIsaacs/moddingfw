@@ -1,10 +1,10 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# ModFW - repo test suite.
+# ModdingFW - repo test suite.
 #----------------------------------------------------------------------------
 # +++++
 $(call Last-Segment-UN)
 ifndef ${LastSegUN}.SegID
-$(call Enter-Segment,ModFW - repo test suite.)
+$(call Enter-Segment,ModdingFW - repo test suite.)
 # -----
 define _help
 Make segment: ${Seg}.mk
@@ -128,10 +128,10 @@ define ${_macro}
   $(call Exit-Macro)
 endef
 
-_macro := verify-is-modfw-repo
+_macro := verify-is-moddingfw-repo
 define _help
 ${_macro}
-  Verify a node contains a ModFW style repo.
+  Verify a node contains a ModdingFW style repo.
   The repo must have been previously declared.
   Parameters:
     1 = The repo to verify.
@@ -145,10 +145,10 @@ define ${_macro}
     $(call PASS,Repo $(1) has a valid path.)
     $(if $(call repo-exists,$(1)),
       $(call PASS,Repo $(1) is a git repo.)
-      $(if $(call is-modfw-repo,$(1)),
-        $(call PASS,Repo $(1) is a modfw repo.)
+      $(if $(call is-moddingfw-repo,$(1)),
+        $(call PASS,Repo $(1) is a moddingfw repo.)
       ,
-        $(call FAIL,Repo $(1) is NOT a ModFW repo.)
+        $(call FAIL,Repo $(1) is NOT a ModdingFW repo.)
       )
     ,
       $(call FAIL,Repo $(1) is NOT a git repo.)
@@ -159,10 +159,10 @@ define ${_macro}
   $(call Exit-Macro)
 endef
 
-_macro := verify-is-not-modfw-repo
+_macro := verify-is-not-moddingfw-repo
 define _help
 ${_macro}
-  Verify a repo does not contain a ModFW style git repo.
+  Verify a repo does not contain a ModdingFW style git repo.
   The repo must have been previously declared and its node must exist.
   Parameters:
     1 = The repo to verify.
@@ -176,10 +176,10 @@ define ${_macro}
     $(call PASS,Repo $(1) has a valid path.)
     $(if $(call repo-exists,$(1)),
       $(call PASS,Repo $(1) is a git repo.)
-      $(if $(call is-modfw-repo,$(1)),
-        $(call FAIL,Repo $(1) is a modfw repo.)
+      $(if $(call is-moddingfw-repo,$(1)),
+        $(call FAIL,Repo $(1) is a moddingfw repo.)
       ,
-        $(call PASS,Repo $(1) is NOT a ModFW repo.)
+        $(call PASS,Repo $(1) is NOT a ModdingFW repo.)
       )
     ,
       $(call FAIL,Repo $(1) is NOT a git repo.)
@@ -328,7 +328,7 @@ define ${.TestUN}
   $(call Exit-Macro)
 endef
 
-$(call Declare-Test,mk-modfw-repo)
+$(call Declare-Test,mk-moddingfw-repo)
 define _help
 ${.TestUN}
   Verify creating and destroying a repo.
@@ -354,26 +354,26 @@ define ${.TestUN}
 
   $(call Mark-Step,Verify can create repo.)
   $(call Expect-Error,Repo ${_rn} has not been declared.)
-  $(call mk-modfw-repo,${_rn})
+  $(call mk-moddingfw-repo,${_rn})
   $(call Verify-Error)
 
   $(call declare-repo,${_rn},${${_rn}.URL})
 
   $(call Expect-Error,The node for repo ${_rn} does not exist.)
-  $(call mk-modfw-repo,${_rn})
+  $(call mk-moddingfw-repo,${_rn})
   $(call Verify-Error)
 
   $(call mk-node,${_rn})
 
   $(call Expect-No-Error)
-  $(call mk-modfw-repo,${_rn})
+  $(call mk-moddingfw-repo,${_rn})
   $(call Verify-No-Error)
 
-  $(call verify-is-modfw-repo,${_rn})
+  $(call verify-is-moddingfw-repo,${_rn})
 
   $(call Mark-Step,Verify the repo can't be created if it already exists.)
   $(call Expect-Error,Repo ${_rn} already exists.)
-  $(call mk-modfw-repo,${_rn})
+  $(call mk-moddingfw-repo,${_rn})
   $(call Verify-Error)
 
   $(call Test-Info,DECLINE deletion of the .git directory.)
@@ -408,7 +408,7 @@ endef
 help-${.TestUN} := $(call _help)
 $(call Add-Help,${.TestUN})
 ${.TestUN}.Prereqs := \
-  ${.SuiteN}.mk-modfw-repo \
+  ${.SuiteN}.mk-moddingfw-repo \
   node-tests.mk-child-nodes
 define ${.TestUN}
   $(call Enter-Macro,$(0))
@@ -429,7 +429,7 @@ define ${.TestUN}
   $(call declare-child-node,${_cn1},${_rn})
   $(call mk-node,${_cn1})
   $(call declare-repo,${_cn1},test)
-  $(call mk-modfw-repo,${_cn1})
+  $(call mk-moddingfw-repo,${_cn1})
 
   $(call declare-child-node,${_cn2},${_rn})
 
@@ -497,7 +497,7 @@ endef
 help-${.TestUN} := $(call _help)
 $(call Add-Help,${.TestUN})
 ${.TestUN}.Prereqs := \
-  ${.SuiteN}.mk-modfw-repo
+  ${.SuiteN}.mk-moddingfw-repo
 define ${.TestUN}
   $(call Enter-Macro,$(0))
   $(call Begin-Test,$(0))
@@ -523,7 +523,7 @@ define ${.TestUN}
 
   $(call declare-repo,${_cn1},test)
 
-  $(call mk-modfw-repo,${_cn1})
+  $(call mk-moddingfw-repo,${_cn1})
 
   $(call declare-child-node,${_cn2},${_rn})
   $(call declare-repo,${_cn2})
@@ -533,7 +533,7 @@ define ${.TestUN}
   $(call mk-repo-from-template,${_cn2},${_cn1})
   $(call Verify-No-Error)
   $(call verify-repo-exists,${_cn2})
-  $(call verify-is-modfw-repo,${_cn2})
+  $(call verify-is-moddingfw-repo,${_cn2})
 
   $(call Mark-Step,Check the errors if the new repo node exists.)
   $(call Expect-Error,The repo node ${_cn2} already exists -- not cloning.)
@@ -549,7 +549,7 @@ define ${.TestUN}
     $(call FAIL,The segment file for ${_cn1} does not exist.)
   )
 
-  $(call Expect-Error,Template node ${_cn1} is not a ModFW repo.)
+  $(call Expect-Error,Template node ${_cn1} is not a ModdingFW repo.)
   $(call mk-repo-from-template,${_cn2},${_cn1})
   $(call Verify-Error)
   $(call verify-node-does-not-exist,${_cn2})
@@ -624,7 +624,7 @@ define ${.TestUN}
   $(call declare-child-node,${_r1},${_pn})
   $(call mk-node,${_r1})
   $(call declare-repo,${_r1},null)
-  $(call mk-modfw-repo,${_r1})
+  $(call mk-moddingfw-repo,${_r1})
 
   $(call Test-Info,Proper declaration.)
   $(call undeclare-repo,${_r2})
@@ -676,7 +676,7 @@ endef
 help-${.TestUN} := $(call _help)
 $(call Add-Help,${.TestUN})
 ${.TestUN}.Prereqs := \
-  ${.SuiteN}.mk-modfw-repo
+  ${.SuiteN}.mk-moddingfw-repo
 define ${.TestUN}
   $(call Enter-Macro,$(0))
   $(call Begin-Test,$(0))
@@ -716,7 +716,7 @@ define ${.TestUN}
     )
 
   $(call mk-node,${_cn})
-  $(call mk-modfw-repo,${_cn})
+  $(call mk-moddingfw-repo,${_cn})
 
   $(call Mark-Step,Verifying:repo-branch-exists.)
   $(eval _bl := $(call branches,${_cn}))

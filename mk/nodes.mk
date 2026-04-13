@@ -1,34 +1,34 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Macros to support ModFW nodes.
+# Macros to support ModdingFW nodes.
 #----------------------------------------------------------------------------
 # +++++
 $(call Last-Segment-UN)
 ifndef ${LastSegUN}.SegID
-$(call Enter-Segment,Macros to support ModFW nodes.)
+$(call Enter-Segment,Macros to support ModdingFW nodes.)
 # -----
 
 define _help
 Make segment: ${Seg}.mk
 
-In ModFW nodes are structures used to manage directory trees where each directory is described using a node. Only ModFW related directories are
+In ModdingFW nodes are structures used to manage directory trees where each directory is described using a node. Only ModdingFW related directories are
 described using nodes.
 
 A node is essentially the point where a branch in a tree occurs. A node isessentially a directory in the file system. The name of the node and the name
-of the directory are the same. In ModFW each node must contain a makefile segment having the same name as the node and, therefore, the directory.
+of the directory are the same. In ModdingFW each node must contain a makefile segment having the same name as the node and, therefore, the directory.
 
-In ModFW the following terms are used to define nodes:
+In ModdingFW the following terms are used to define nodes:
 
   families: A number of unrelated trees.
 
   tree:
-    ModFW uses a tree structure to organize components needed to assemble deliverables. This structure is similar to a classic tree structure as described here:
+    ModdingFW uses a tree structure to organize components needed to assemble deliverables. This structure is similar to a classic tree structure as described here:
     https://en.wikipedia.org/wiki/Tree_(data_structure)
 
   node:
-    A node data structure describes a directory in the file system. A node can be contained in another node (i.e. have a parent). Conversely, a node can contain other nodes (have children). Semantically, a node serves to differentiate directories which are part of the ModFW structure apart from unrelated directories. A node must at minimum contain a makefile segment (seg) having the same name as the node itself.
+    A node data structure describes a directory in the file system. A node can be contained in another node (i.e. have a parent). Conversely, a node can contain other nodes (have children). Semantically, a node serves to differentiate directories which are part of the ModdingFW structure apart from unrelated directories. A node must at minimum contain a makefile segment (seg) having the same name as the node itself.
 
   root:
-    A root node has no parent but can have children. The ModFW directory is a root node. Typically the project and kit directories are children of the ModFW node but can exist in other locations making them root nodes as well.
+    A root node has no parent but can have children. The ModdingFW directory is a root node. Typically the project and kit directories are children of the ModdingFW node but can exist in other locations making them root nodes as well.
 
   child:
     A child node always has a parent and can have children.
@@ -77,7 +77,7 @@ _var := node_attributes
 ${_var} := name node_un var parent children path dir
 define _help
 ${_var}
-  ModFW components are organized into a classic tree structure. Each node of a ModFW tree has the following attributes:
+  ModdingFW components are organized into a classic tree structure. Each node of a ModdingFW tree has the following attributes:
 
   <node>.name
     The name of the node.
@@ -327,7 +327,7 @@ endef
 _macro := declare-child-node
 define _help
 ${_macro}
-  Declare a node in a ModFW tree.
+  Declare a node in a ModdingFW tree.
 
   A child node uses its parent node path. The parent node must have been previously declared.
 
