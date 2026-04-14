@@ -34,7 +34,7 @@ MakeD := ModdingFW -- A modding framework.
 include ${_helpers}
 
 # ModdingFW always has a log file.
-LOG_FILE := ${WorkingDir}.log
+LOG_FILE := ${CoreDir}.log
 $(call Enable-Log-File)
 
 ifeq ($(call Is-Goal,test),)
@@ -60,14 +60,7 @@ This make file and the included make segments define a framework for developing 
 
 Definitions:
   context:
-    The directory from which ModdingFW is being run defines the context in which mods are build.
-
-  deliverable:
-    A deliverable is the end result of a ModdingFW run. In make terminology, a deliverable is an end goal or target. In ModdingFW a deliverable is a file which can be:
-      - A software executable or library.
-      - A file describing an object which can be manufactured using a 3D printer, CNC or other means.
-      - A file describing a printed circuit board needed to manufacture and assemble the board.
-      - A bill of materials (BOM) for off the shelf parts.
+    The directory from which ModdingFW is being run defines the context in which mods are built. Running the ModdingFW makefile starts a container and the current directory is mounted as a volume in the container. This allows the mod developer to use their preferred development tools on the host workstation without corrupting the host system while still taking advantage of the ModdingFW container for building mods. The context is used to determine which project is active and therefore which mods are built when the "all" goal is called.
 
   project:
     A project is the collection of one or more deliverables which serve a specific purpose. By default all components, intermediate files and deliverables are contained in the project directory tree. This allows different projects to use different versions of kits without worry of version conflicts. The disadvantage of this approach is the potential of having multiple copies of mods so one must be careful when editing mods to avoid mistakenly modifying a file in the wrong project. Components from multiple projects within the ModdingFW directory tree can be integrated into a complete system. See prj definition for more information about projects.
@@ -93,12 +86,19 @@ Definitions:
   repo:
     A node which is also a clone of a git repository.
 
+  deliverable:
+    A deliverable is the end result of a ModdingFW run. In make terminology, a deliverable is an end goal or target. In ModdingFW a deliverable is a file which can be:
+      - A software executable or library.
+      - A file describing an object which can be manufactured using a 3D printer, CNC or other means.
+      - A file describing a printed circuit board needed to manufacture and assemble the board.
+      - A bill of materials (BOM) for off the shelf parts.
+
   dev:
     The designer and/or developer of a project.
 
 Project Structure
 
-Projects use mods and mods use kits. To help avoid name collisions between kits projects use mod references to specify which mods to use. A mod reference has the form <kit>.<mod>. The referenced mod installs its kit if necessary. Aproject should not need to install a kit before using a mod. See help-modsfor more information.
+Projects use mods and mods use kits. To help avoid name collisions between kits projects use mod references to specify which mods to use. A mod reference has the form <kit>.<mod>. The referenced mod installs its kit if necessary. A project should not need to install a kit before using a mod. See help-mods for more information.
 
 To help identify the purpose of project and kit repos it is recommended project repo names be prefixed with mfw-prj- and kit repos be prefixed with mfw-kit-.
 
@@ -145,42 +145,42 @@ Global_Variable
 Callable-Macro
   The name of a helper defined callable macro.
 
-WARNING: Even though make allows variable names to begin with a numericcharacter this must be avoided for all variable names which could be exported to the environment to be passed to a shell. If a numeric character is used as the first character of an exported variable name unpredictable behavior can occur. This is particularly important for PROJECT, KIT, MOD, and segment names. To help avoid this problem use the helpers provided macro To-Shell-Var to convert a name to a shell compatible name which can then safely be exported to the shell environment.
+WARNING: Even though make allows variable names to begin with a numeric character this must be avoided for all variable names which could be exported to the environment to be passed to a shell. If a numeric character is used as the first character of an exported variable name unpredictable behavior can occur. This is particularly important for PROJECT, KIT, MOD, and segment names. To help avoid this problem use the helpers provided macro To-Shell-Var to convert a name to a shell compatible name which can then safely be exported to the shell environment.
 
 Overriding variables:
-An overrides file, overrides.mk, is supported where the developer can preset variables rather than having to define them on the command line. This file is intended to be temporary and is not maintained as part of the repository (i.e. ignored in .gitignore). The overrides.mk file is loaded immediately. None of the helpers are available. Therefore overrides should only define variables which would otherwise be defined on the command line.
+  An overrides file, overrides.mk, is supported where the developer can preset variables rather than having to define them on the command line. This file is intended to be temporary and is not maintained as part of the repository (i.e. ignored in .gitignore). The overrides.mk file is loaded immediately. None of the helpers are available. Therefore overrides should only define variables which would otherwise be defined on the command line.
 
-Additional project, kit and mod specific overrides can be declared and maintained in a project repository. Unlike overrides.mk the helpers will be available to the project overrides. See help-projects for more information.
+  Additional project, kit and mod specific overrides can be declared and maintained in a project repository. Unlike overrides.mk the helpers will be available to the project overrides. See help-projects for more information.
 
 Makefile processing:
-ModdingFW divides makefile processing into two distinct phases; pre-process and execute.
+  ModdingFW divides makefile processing into two distinct phases; pre-process and execute.
 
-During the pre-process phase nearly all macros are executed and makefile segments are loaded. Any repos that are referenced are cloned or setup during this phase. Because of this, variables should be declared using the := form. New components (project, kit, or mod) are created during this phase.
+  During the pre-process phase nearly all macros are executed and makefile segments are loaded. Any repos that are referenced are cloned or setup during this phase. Because of this, variables should be declared using the := form. New components (project, kit, or mod) are created during this phase.
 
-The execute phase is where the typical make behavior occurs. Dependencies are examined and resolved in this phase.
+  The execute phase is where the typical make behavior occurs. Dependencies are examined and resolved in this phase.
 
 Architectural components:
-Workstation
-  A development workstation or a system administration workstation.
-Proxy
-  Manages connections between workstations and gateways. This is typically hosted in the cloud.
-Gateway
-  Serves as a protocol translator between the Controller and the workstation.
-Controller
-  Controls the device hardware.
+  Workstation
+    A development workstation or a system administration workstation.
+  Proxy
+    Manages connections between workstations and gateways. This is typically hosted in the cloud.
+  Gateway
+    Serves as a protocol translator between the Controller and the workstation.
+  Controller
+    Controls the device hardware.
 
 Hardware platforms:
-PC  = A personal computer.
-SBC = A single board computer.
-MCU = An embedded microcontroller.
-HDW = The device or machine being controlled. For example a 3D printer.
+  PC  = A personal computer.
+  SBC = A single board computer.
+  MCU = An embedded microcontroller.
+  HDW = The device or machine being controlled. For example a 3D printer.
 
 Hardware roles:
-WS  = Development or administration workstation.
-UI  = User interface either command line or graphical or both.
-PRX = The proxy hosted in the cloud.
-GW  = Gateway (protocol translation) between the CTL and the system.
-CTL = The device controller.
+  WS  = Development or administration workstation.
+  UI  = User interface either command line or graphical or both.
+  PRX = The proxy hosted in the cloud.
+  GW  = Gateway (protocol translation) between the CTL and the system.
+  CTL = The device controller.
 
 ModdingFW directly supports the following design patterns. If necessary mods can either change the patterns or define new ones.
 
@@ -231,34 +231,34 @@ Design patterns:
                                              serial port)
 
 Getting started:
-All that is needed to get started is a clone of this repository and then run make within the cloned directory. All of the necessary tools are automatically installed within the context of the project directory so that different projects can use different versions of tools without conflicts between versions.
+  All that is needed to get started is a clone of this repository and then run make within the cloned directory. All of the necessary tools are automatically installed within the context of the project directory so that different projects can use different versions of tools without conflicts between versions.
 
 Using an Existing Project:
-Before any actual mods can be built it is necessary to declare an active project. This is done by defining the PROJECT variable on the command line along with the URL to clone the project from.
+  Before any actual mods can be built it is necessary to declare an active project. This is done by defining the PROJECT variable on the command line along with the URL to clone the project from.
 
-For example:
-  make PROJECT=<project> <project>.URL=<url> all
-    Will install the project repo and activate it.
+  For example:
+    make PROJECT=<project> <project>.URL=<url> all
+      Will install the project repo and activate it.
 
 Creating a New Local Project:
-If creating a new project then the project repo can be created locally and the URL can be set to LOCAL_REPO.
+  If creating a new project then the project repo can be created locally and the URL can be set to LOCAL_REPO.
 
-For example:
-  make PROJECT=<project> <project>.URL=LOCAL_REPO mk-project
-    Will create a new project repo locally and activate it.
+  For example:
+    make PROJECT=<project> <project>.URL=LOCAL_REPO mk-project
+      Will create a new project repo locally and activate it.
 
 Creating and Using a New Remote Project:
-If creating a new project repo on a remote server then first create the empty repo on the server. Then create the local project repo and set the URL to the remote server repo.
+  If creating a new project repo on a remote server then first create the empty repo on the server. Then create the local project repo and set the URL to the remote server repo.
 
-For example:
-  make PROJECT=<project> <project>.URL=<url> mk-project
-    Will create a new project repo locally and set the URL to the remote server repo.
+  For example:
+    make PROJECT=<project> <project>.URL=<url> mk-project
+      Will create a new project repo locally and set the URL to the remote server repo.
 
 Command line options:
   Required sticky options:
-  To see the variables needed by projects, kits, and mods use the corresponding help. e.g. make help-projects will display the help related to projects.
+    To see the variables needed by projects, kits, and mods use the corresponding help. e.g. make help-projects will display the help related to projects.
 
-  For automated builds it is possible to preset options in another directory then overriding STICKY_PATH either in overrides.mk or on the command line.
+    For automated builds it is possible to preset options in another directory then overriding STICKY_PATH either in overrides.mk or on the command line.
 
 See help-projects for more information about projects.
 
@@ -284,13 +284,13 @@ Command line goals:
   reset-<seg>-sticky
     Reset segment specific variables. See segment specific help for more information.
 
-  Help and debug:
-  show-project_deps
-    Display the list of goals a project is dependent upon.
-  show-<variable>
-    This is a special goal which can be used to display any makefile variable and exit.
-  help-<seg>
-    Display a make segment specific help.
+  Help and debug goals:
+    show-project_deps
+      Display the list of goals a project is dependent upon.
+    show-<variable>
+      This is a special goal which can be used to display any makefile variable and exit.
+    help-<seg>
+      Display a make segment specific help.
 
   See help-helpers for more information.
 
@@ -301,7 +301,7 @@ $(call Add-Help,${SegID})
 $(call Add-Help-Section,root_node,ModdingFW root node.)
 
 _var := ModdingFW_path
-${_var} := ${WorkingPath}/../
+${_var} := ${CorePath}/../
 define _help
 ${_var} := ${${_var}}
   This is the path to the directory containing the ModdingFW directory. This is used as the path to the root node for the ModdingFW node tree.
@@ -310,10 +310,10 @@ help-${_var} := $(call _help)
 $(call Add-Help,${_var})
 
 _var := ModdingFW_node
-${_var} := ${WorkingDir}
+${_var} := ${CoreDir}
 define _help
 ${_var} := ${${_var}}
-  This is the name of the ModdingFW directory and is equal to the helper variable WorkingDir. This is used to name the root node for the ModdingFW node tree.
+  This is the name of the ModdingFW directory and is equal to the helper variable CoreDir. This is used to name the root node for the ModdingFW node tree.
 endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})
