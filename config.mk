@@ -52,8 +52,7 @@ _var := PROJECTS_PATH
 $(call Sticky,${_var},${ModdingFW_path})
 define _help
 ${_var} = ${${_var}}
-  The path to the root node which will contain project nodes. This can be used to avoid polluting the ModdingFW directory itself.
-  However, this defaults to the path to ModdingFW itself as defined by ModdingFW_path. Use this to change the location where projects are installed.
+  The path to the root node which will contain project nodes. This can be used to avoid polluting the ModdingFW directory itself. However, this defaults to the path to ModdingFW itself as defined by ModdingFW_path. Use this to change the location where projects are installed.
 endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})
@@ -237,8 +236,7 @@ _var := DEFAULT_PROJECT_URL
 $(call Sticky,${_var},${DEFAULT_URL}/${PROJECTS_DIR})
 define _help
 ${_var} = ${${_var}}
-  The default URL minus the repo name to use when installing or creating a
-  project repo.
+  The default URL minus the repo name to use when installing or creating a project repo.
 endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})
@@ -247,8 +245,7 @@ _var := DEFAULT_KIT_URL
 $(call Sticky,${_var},${DEFAULT_URL}/${KITS_DIR})
 define _help
 ${_var} = ${${_var}}
-  The default URL minus the repo name to use when installing or creating a
-  kit repo.
+  The default URL minus the repo name to use when installing or creating a kit repo.
 endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})
@@ -268,24 +265,17 @@ define _help
 ${_h}
   In a ModdingFW run only one project can be built at a time. The PROJECT variable indicates which project is being built. This project is the active project.
 
-  The active project is the top level or focus. The project then "uses" one or more mods. Mods can then "use" additional mods and even mods from other
-  kits to build components they may be dependent upon. Dependency trees should always begin with the active project.
+  The active project is the top level or focus. The project then "uses" one or more mods. Mods can then "use" additional mods and even mods from other kits to build components they may be dependent upon. Dependency trees should always begin with the active project.
 
-  The PROJECTS_DIR contains all of the installed projects. Each project is a separate repo. Projects cannot reference or be dependent upon files contained
-  in other projects. However, projects can install and use kits which were developed in other projects.
+  The PROJECTS_DIR contains all of the installed projects. Each project is a separate repo. Projects cannot reference or be dependent upon files contained in other projects. However, projects can install and use kits which were developed in other projects.
 
-  Projects are intended to be self contained meaning all build artifacts along with the tools needed to build them are contained within the project
-  directory structure. This helps avoid version conflicts between projects which use the same but different versions of kits or tools. This also helps
-  avoid situations where removing a project breaks the build of another project or results in orphaned build artifacts.
+  Projects are intended to be self contained meaning all build artifacts along with the tools needed to build them are contained within the project directory structure. This helps avoid version conflicts between projects which use the same but different versions of kits or tools. This also helps avoid situations where removing a project breaks the build of another project or results in orphaned build artifacts.
 
-  ModdingFW is a repo containing the ModdingFW components needed to build projects or test ModdingFW. The directory containing the ModdingFW repo is the root node. All
-  other nodes are children of the ModdingFW root node.
+  ModdingFW is a repo containing the ModdingFW components needed to build projects or test ModdingFW. The directory containing the ModdingFW repo is the root node. All other nodes are children of the ModdingFW root node.
 
   == ModdingFW Node Structure ==
 
-  This is the structure of the declared nodes. Typically, the resulting directory structure matches the node structure but it is possible to
-  change the location of a particular node. See help-nodes for more information. A typical case for this is to use the variable PROJECTS_DIR
-  to change the location where projects are installed and built.
+  This is the structure of the declared nodes. Typically, the resulting directory structure matches the node structure but it is possible to change the location of a particular node. See help-nodes for more information. A typical case for this is to use the variable PROJECTS_DIR to change the location where projects are installed and built.
 
   Legend:
   +-    A root node.
