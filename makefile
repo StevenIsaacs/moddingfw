@@ -34,19 +34,21 @@ MakeD := ModdingFW -- A modding framework.
 include ${_helpers}
 
 # ModdingFW always has a log file.
-LOG_FILE := ${CoreDir}.log
-$(call Enable-Log-File)
+LOG_FILE := ${ContextDir}.log
 
 ifeq ($(call Is-Goal,test),)
   _override := overrides
 else
   _override := testing-overrides
 endif
+
 $(call Verbose,Overrides are in segment:${_override})
 $(call Use-Segment,${_override},Info)
 
 $(call Use-Segment,config)
 $(call Add-Segment-Path,${MK_DIR})
+
+$(call Enable-Log-File)
 
 define _help
 Makefile: ${Seg}

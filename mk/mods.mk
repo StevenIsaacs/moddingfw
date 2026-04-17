@@ -16,8 +16,7 @@ A mod defines all of the tools and build procedures for a specific component.
 
 Mods are always contained within a kit and are not available until the containing kit has either been installed or created.
 
-A mod is referenced using the kit name and the mod in a dot notation making it possible for more than one kit to contain mods having the same name. A mod
-reference is shown in the following sections as <kit>.<mod>. This is consistent with a path since a mod directory is a subdirectory of a kit.
+A mod is referenced using the kit name and the mod in a dot notation making it possible for more than one kit to contain mods having the same name. A mod reference is shown in the following sections as <kit>.<mod>. This is consistent with a path since a mod directory is a subdirectory of a kit.
 e.g. samplekit.samplemod references the kit samplekit and the mod samplemod.
 
 NOTE: The <kit>.<mod> reference should be equal to $${<kit>.<mod>.SegUN} after loading the mod segment file which can be used as a sanity check.
