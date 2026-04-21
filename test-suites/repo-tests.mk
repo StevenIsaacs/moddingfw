@@ -15,7 +15,7 @@ endef
 help-${SegID} := $(call _help)
 $(call Add-Help,${SegID})
 
-$(call Use-Segment,repos)
+$(call Use-Segment,repos,)
 
 $(call Add-Help-Section,verifiers,Macros to verify repo features.)
 

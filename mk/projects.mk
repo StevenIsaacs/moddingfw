@@ -7,7 +7,7 @@ ifndef ${LastSegUN}.SegID
 $(call Enter-Segment,Provide features to use one or more projects.)
 # -----
 
-$(call Use-Segment,mods)
+$(call Use-Segment,mods,)
 
 define _help
 Make segment: ${Seg}.mk
@@ -589,7 +589,7 @@ define ${_macro}
         )
       )
       $(call Redirect-Sticky,${${PROJECT_STICKY_DIR}.path})
-      $(call Use-Segment,${$(1).seg_f})
+      $(call Use-Segment,${$(1).seg_f},)
       $(eval active_project := $(1))
     )
   )

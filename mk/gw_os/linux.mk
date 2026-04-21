@@ -18,7 +18,7 @@ LINUX_USER_TMP_PATH = ${LINUX_USER_HOME_PATH}/tmp
 LINUX_ADMIN_HOME_PATH = ${LINUX_HOME_PATH}/${GW_ADMIN}
 LINUX_ADMIN_TMP_PATH = ${LINUX_ADMIN_HOME_PATH}/tmp
 
-$(call Use-Segment,loi/loi)
+$(call Use-Segment,loi/loi,)
 
 ifeq (${MAKECMDGOALS},help-linux)
 define HelpLinuxMsg

@@ -29,7 +29,7 @@ TESTING := 1
 PROJECTS_DIR := test-bed
 PROJECT := test-project
 
-$(call Use-Segment,$(HELPERS_PATH)/test-helpers.mk)
+$(call Use-Segment,$(HELPERS_PATH)/test-helpers.mk,)
 
 $(call Info,Running test cases:${CASES})
 

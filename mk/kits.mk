@@ -7,7 +7,7 @@ ifndef ${LastSegUN}.SegID
 $(call Enter-Segment,Manage multiple ModdingFW kits using git, branches, and tags.)
 # -----
 
-$(call Use-Segment,repos)
+$(call Use-Segment,repos,)
 
 define _help
 Make segment: ${Seg}.mk
@@ -560,7 +560,7 @@ $(if ${${$(1).seg_un}.SegID},
       )
     )
     $(eval this-kit := $(1))
-    $(call Use-Segment,${$(1).seg_f})
+    $(call Use-Segment,${$(1).seg_f},)
   )
 )
 $(call Exit-Macro)

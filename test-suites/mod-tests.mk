@@ -22,8 +22,8 @@ endef
 help-${SegID} := $(call _help)
 $(call Add-Help,${SegID})
 
-$(call Use-Segment,mods)
-$(call Use-Segment,kit-tests)
+$(call Use-Segment,mods,)
+$(call Use-Segment,kit-tests,)
 
 $(call Add-Help-Section,verifiers,Macros to verify mod features.)
 

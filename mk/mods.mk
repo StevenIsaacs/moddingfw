@@ -7,7 +7,7 @@ ifndef ${LastSegUN}.SegID
 $(call Enter-Segment,ModdingFW Mods.)
 # -----
 
-$(call Use-Segment,kits)
+$(call Use-Segment,kits,)
 
 define _help
 Make segment: ${Seg}.mk
@@ -742,7 +742,7 @@ $(if ${Errors},
           )
         )
         $(eval this_mod := $(1))
-        $(call Use-Segment,${$(1).seg_f})
+        $(call Use-Segment,${$(1).seg_f},)
       ,
         $(call Signal-Error,Mod $(1) is not a ModdingFW style mod.)
       )

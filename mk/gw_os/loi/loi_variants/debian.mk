@@ -8,7 +8,7 @@ $(call Enter-Segment,OS Variant definitions for the Debian OS.)
 # -----
 $(info Using OS variant: ${GW_OS_VARIANT})
 
-$(call Use-Segment,generic)
+$(call Use-Segment,generic,)
 # +++++
 # Postamble
 # Define help only if needed.

@@ -69,7 +69,7 @@ endef
 
 endif
 
-$(call Use-Segment,gw_os/${GW_OS})
+$(call Use-Segment,gw_os/${GW_OS},)
 
 # +++++
 # Postamble

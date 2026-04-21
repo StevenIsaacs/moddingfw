@@ -45,7 +45,7 @@ endif
 $(call Verbose,Overrides are in segment:${_override})
 $(call Use-Segment,${_override},Info)
 
-$(call Use-Segment,config)
+$(call Use-Segment,config,)
 $(call Add-Segment-Path,${MK_DIR})
 
 $(call Enable-Log-File)
@@ -332,7 +332,7 @@ endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})
 ifdef ${_var}
-  $(call Use-Segment,${${_var}})
+  $(call Use-Segment,${${_var}},)
 endif
 
 # Testing takes control of when projects, kits, and mods are loaded.
@@ -387,7 +387,7 @@ $(call Add-Help,${_macro})
 define ${_macro}
   $(call Enter-Macro,$(0))
 
-  $(call Use-Segment,projects)
+  $(call Use-Segment,projects,)
 
   $(call declare-root-node,${ModdingFW_node},${ModdingFW_path})
 
@@ -425,7 +425,7 @@ endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})
 ifdef ${_var}
-  $(call Use-Segment,${${_var}})
+  $(call Use-Segment,${${_var}},)
 endif
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

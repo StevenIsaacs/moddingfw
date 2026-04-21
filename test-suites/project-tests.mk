@@ -20,7 +20,7 @@ endef
 help-${SegID} := $(call _help)
 $(call Add-Help,${SegID})
 
-$(call Use-Segment,projects)
+$(call Use-Segment,projects,)
 
 $(call Add-Help-Section,verifiers,Macros to verify project features.)
 

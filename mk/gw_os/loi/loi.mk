@@ -54,9 +54,9 @@ $(call Require,GW_INIT_SCRIPT)
 # to define dependencies for staging.
 LoiInitScripts = ${HELPER_FUNCTIONS}
 
-$(call Use-Segment,loi_boards/${GW_OS_BOARD})
-$(call Use-Segment,loi_variants/${GW_OS_VARIANT})
-$(call Use-Segment,gw_access_methods/${MCU_ACCESS_METHOD})
+$(call Use-Segment,loi_boards/${GW_OS_BOARD},)
+$(call Use-Segment,loi_variants/${GW_OS_VARIANT},)
+$(call Use-Segment,gw_access_methods/${MCU_ACCESS_METHOD},)
 
 $(call Require,\
 ${GW_OS_VARIANT}_TMP_PATH \

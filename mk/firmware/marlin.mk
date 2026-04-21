@@ -37,7 +37,7 @@ _${mlnSegN}_pio_requirements := ${pio_venv_requirements}
 
 _${mlnSegN}_build_path := ${${mlnSegN}_PATH}/.pio/build
 
-$(call Use-Segment,firmware/platformio)
+$(call Use-Segment,firmware/platformio,)
 
 #+
 # For Marlin.
