@@ -1,11 +1,6 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ModdingFW - mod test suite.
 #----------------------------------------------------------------------------
-# +++++
-$(call Last-Segment-UN)
-ifndef ${LastSegUN}.SegID
-$(call Enter-Segment,ModdingFW - mod test suite.)
-# -----
 define _help
 Make segment: ${Seg}.mk
 
@@ -22,8 +17,8 @@ endef
 help-${SegID} := $(call _help)
 $(call Add-Help,${SegID})
 
-$(call Use-Segment,mods,)
-$(call Use-Segment,kit-tests,)
+$(call Use-Segment,mods,,Mod management features.)
+$(call Use-Segment,kit-tests,,)
 
 $(call Add-Help-Section,verifiers,Macros to verify mod features.)
 
@@ -569,9 +564,3 @@ ${_h} := $(call ${_help})
 endif # help goal message.
 
 $(call End-Declare-Suite)
-
-$(call Exit-Segment)
-else # <u>SegId exists
-$(call Check-Segment-Conflicts)
-endif # <u>SegId
-# -----

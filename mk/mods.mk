@@ -1,11 +1,6 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Load a mod -- the mod has already been handled.
 #----------------------------------------------------------------------------
-# +++++
-$(call Last-Segment-UN)
-ifndef ${LastSegUN}.SegID
-$(call Enter-Segment,ModdingFW Mods.)
-# -----
 
 $(call Use-Segment,kits,)
 
@@ -768,9 +763,3 @@ $(call Display-Help-List,${SegID})
 endef
 ${__h} := ${__help}
 endif # help goal message.
-
-$(call Exit-Segment)
-else # SegId exists
-$(call Check-Segment-Conflicts)
-endif # SegId
-# -----

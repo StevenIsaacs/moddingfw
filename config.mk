@@ -1,14 +1,6 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ModdingFW config variables.
 #----------------------------------------------------------------------------
-# +++++
-$(call Last-Segment-UN)
-ifndef ${LastSegUN}.SegID
-$(call Enter-Segment,ModdingFW config variables.)
-$(call Display-Segs)
-$(call Display-Seg-Attributes,${SegUN})
-
-# -----
 define _help
 Make segment: ${Seg}.mk
 
@@ -385,9 +377,3 @@ $(call Display-Help-List,${SegID})
 endef
 ${__h} := ${__help}
 endif # help goal message.
-
-$(call Exit-Segment)
-else # <u>SegID exists
-$(call Check-Segment-Conflicts)
-endif # <u>SegID
-# -----

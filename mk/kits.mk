@@ -1,13 +1,8 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Manage multiple ModdingFW kits using git, branches, and tags.
 #----------------------------------------------------------------------------
-# +++++
-$(call Last-Segment-UN)
-ifndef ${LastSegUN}.SegID
-$(call Enter-Segment,Manage multiple ModdingFW kits using git, branches, and tags.)
-# -----
 
-$(call Use-Segment,repos,)
+$(call Use-Segment,repos,,Repo management.)
 
 define _help
 Make segment: ${Seg}.mk
@@ -560,7 +555,7 @@ $(if ${${$(1).seg_un}.SegID},
       )
     )
     $(eval this-kit := $(1))
-    $(call Use-Segment,${$(1).seg_f},)
+    $(call Use-Segment,${$(1).seg_f},,Using kit segment for $(1).)
   )
 )
 $(call Exit-Macro)
@@ -579,9 +574,3 @@ $(call Display-Help-List,${SegID})
 endef
 ${__h} := ${__help}
 endif # help goal message.
-
-$(call Exit-Segment)
-else # SegId exists
-$(call Check-Segment-Conflicts)
-endif # SegId
-# -----

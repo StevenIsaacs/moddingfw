@@ -1,11 +1,6 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Macros to support ModdingFW nodes.
 #----------------------------------------------------------------------------
-# +++++
-$(call Last-Segment-UN)
-ifndef ${LastSegUN}.SegID
-$(call Enter-Segment,Macros to support ModdingFW nodes.)
-# -----
 
 define _help
 Make segment: ${Seg}.mk
@@ -593,9 +588,3 @@ $(call Display-Help-List,${SegID})
 endef
 ${__h} := ${__help}
 endif # help goal message.
-
-$(call Exit-Segment)
-else # <u>SegId exists
-$(call Check-Segment-Conflicts)
-endif # <u>SegId
-# -----

@@ -1,12 +1,6 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Test the ModdingFW features.
 #----------------------------------------------------------------------------
-# The prefix $(call Last-Segment-Basename) must be unique for all files.
-# +++++
-$(call Last-Segment-UN)
-ifndef ${LastSegUN}.SegID
-$(call Enter-Segment,Test the ModdingFW features.)
-# -----
 
 define _help
 Make segment: ${Seg}.mk
@@ -29,7 +23,7 @@ TESTING := 1
 PROJECTS_DIR := test-bed
 PROJECT := test-project
 
-$(call Use-Segment,$(HELPERS_PATH)/test-helpers.mk,)
+$(call Use-Segment,$(HELPERS_PATH)/test-helpers.mk,,Test helper macros.)
 
 $(call Info,Running test cases:${CASES})
 
@@ -48,9 +42,3 @@ $(call Display-Help-List,${SegID})
 endef
 ${__h} := ${__help}
 endif # help goal message.
-
-$(call Exit-Segment)
-else # SegId exists
-$(call Check-Segment-Conflicts)
-endif # SegId
-# -----

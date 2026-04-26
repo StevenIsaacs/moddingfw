@@ -1,13 +1,8 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Provide features to use one or more projects.
 #----------------------------------------------------------------------------
-# +++++
-$(call Last-Segment-UN)
-ifndef ${LastSegUN}.SegID
-$(call Enter-Segment,Provide features to use one or more projects.)
-# -----
 
-$(call Use-Segment,mods,)
+$(call Use-Segment,mods,,Mod management.)
 
 define _help
 Make segment: ${Seg}.mk
@@ -589,7 +584,7 @@ define ${_macro}
         )
       )
       $(call Redirect-Sticky,${${PROJECT_STICKY_DIR}.path})
-      $(call Use-Segment,${$(1).seg_f},)
+      $(call Use-Segment,${$(1).seg_f},,Using project segment for $(1).)
       $(eval active_project := $(1))
     )
   )
@@ -610,8 +605,3 @@ $(call Display-Help-List,${SegID})
 endef
 ${__h} := ${__help}
 endif
-$(call Exit-Segment)
-else
-$(call Check-Segment-Conflicts)
-endif # SegId
-# -----

@@ -1,11 +1,6 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ModdingFW - kit test suite.
 #----------------------------------------------------------------------------
-# +++++
-$(call Last-Segment-UN)
-ifndef ${LastSegUN}.SegID
-$(call Enter-Segment,ModdingFW - kit test suite.)
-# -----
 define _help
 Make segment: ${Seg}.mk
 
@@ -20,7 +15,7 @@ endef
 help-${SegID} := $(call _help)
 $(call Add-Help,${SegID})
 
-$(call Use-Segment,kits,)
+$(call Use-Segment,kits,,Kit management features.)
 
 $(call Add-Help-Section,verifiers,Macros to verify kit features.)
 
@@ -572,9 +567,3 @@ ${_h} := $(call ${_help})
 endif # help goal message.
 
 $(call End-Declare-Suite)
-
-$(call Exit-Segment)
-else # <u>SegId exists
-$(call Check-Segment-Conflicts)
-endif # <u>SegId
-# -----

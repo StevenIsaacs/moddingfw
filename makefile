@@ -43,9 +43,9 @@ else
 endif
 
 $(call Verbose,Overrides are in segment:${_override})
-$(call Use-Segment,${_override},Info)
+$(call Use-Segment,${_override},Info,Configuration overrides.)
 
-$(call Use-Segment,config,)
+$(call Use-Segment,config,,Configuration variables.)
 $(call Add-Segment-Path,${MK_DIR})
 
 $(call Enable-Log-File)
@@ -332,7 +332,7 @@ endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})
 ifdef ${_var}
-  $(call Use-Segment,${${_var}},)
+  $(call Use-Segment,${${_var}},Info,Prepended make segment.)
 endif
 
 # Testing takes control of when projects, kits, and mods are loaded.
@@ -425,7 +425,7 @@ endef
 help-${_var} := $(call _help)
 $(call Add-Help,${_var})
 ifdef ${_var}
-  $(call Use-Segment,${${_var}},)
+  $(call Use-Segment,${${_var}},Info,Appended make segment.)
 endif
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
